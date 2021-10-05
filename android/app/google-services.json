@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "349809739511",
+    "project_id": "stellary-a7d9d",
+    "storage_bucket": "stellary-a7d9d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349809739511:android:a4b2d26f2f3bef81a635f2",
+        "android_client_info": {
+          "package_name": "com.example.diaryly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349809739511-eundj4iqh49iqv5olgc3lde13fu7vta9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp_K3NRABofQwFeXk6mSOgdLwrTaiZoJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349809739511-eundj4iqh49iqv5olgc3lde13fu7vta9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
