@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> {
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [HexColor("452777"), HexColor("5e4394"), HexColor("7a66aa")])),
+              colors: [HexColor("#120421"), HexColor("#371260"), HexColor("#6C3DA0"), HexColor("BB88F4")])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
           body: Center(
@@ -41,13 +41,6 @@ class _SplashState extends State<Splash> {
             height: 120,
             width: 120,
             child: Image.asset('assets/icon.png'),
-          ),
-          /////////NOMBRE APP
-          Container(
-            padding: EdgeInsets.only(top: 20),
-            child: Text('STELLARY',
-                style: GoogleFonts.poiretOne(
-                    fontSize: 30, fontWeight: FontWeight.bold, )),
           ),
         ]),
       )),
