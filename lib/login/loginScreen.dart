@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diaryly/dialog/createDialog.dart';
 import 'package:diaryly/questionnaire/questionnaireScreen.dart';
 import 'package:diaryly/register/registrationScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +17,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  CreateDialog dialog = CreateDialog();
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   late TextEditingController email;
   late TextEditingController password;
@@ -236,65 +238,54 @@ class _LoginState extends State<Login> {
                                           onPrimary: Colors.white,
                                         ),
                                         onPressed: () async {
-                                          if(rememberValue == true) {
-                                            FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+                                          incrementLogs(email.text);
+                                          if (rememberValue == true) {
+                                            FirebaseAuth.instance
+                                                .setPersistence(
+                                                    Persistence.LOCAL);
                                           }
                                           if (_loginFormKey.currentState!
                                               .validate()) {
-
                                             FirebaseAuth.instance
                                                 .signInWithEmailAndPassword(
                                                     email: email.text,
                                                     password: password.text)
-                                                .then(
-                                                    (currentUser) =>
-                                                        FirebaseFirestore
-                                                            .instance
-                                                            .collection(
-                                                                "usuarios")
-                                                            .doc(currentUser
-                                                                .toString())
-                                                            .get()
-                                                            .then(
-                                                              (DocumentSnapshot
-                                                                      result) =>
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(builder: (context) =>
-                                                                          Questionnaire(user: currentUser.user),)),
-                                                            ))
+                                                .then((currentUser) =>
+                                                    FirebaseFirestore.instance
+                                                        .collection("usuarios")
+                                                        .doc(currentUser
+                                                            .toString())
+                                                        .get()
+                                                        .then(
+                                                          (DocumentSnapshot
+                                                                  result) =>
+                                                              /*Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        Questionnaire(
+                                                                            user:
+                                                                                currentUser.user),*/
+                                                                     Navigator.pushNamed(
+                                                                    context, 'question',
+                                                                    arguments:
+                                                                        [currentUser.user, email.text]),
+                                                                  )
+                                                        )
                                                 .catchError((err) {
                                               print(err);
-                                              if(err.code == 'user-not-found') {
-                                                showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return AlertDialog(
-                                                        title: Text("Error"),
-                                                        content: Text(
-                                                            "No existe cuenta asociada a ese email"),
-                                                        actions: <Widget>[
-                                                          TextButton(
-                                                            child: Text(
-                                                                "Cerrar",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .deepPurple[
-                                                                    500])),
-                                                            onPressed: () {
-                                                              Navigator.of(
-                                                                  context)
-                                                                  .pop();
-                                                            },
-                                                          )
-                                                        ],
-                                                      );
-                                                    });
-                                                }
+                                              if (err.code ==
+                                                  'user-not-found') {
+                                                dialog.createDialog(
+                                                    "No existe cuenta asociada a ese e-mail",
+                                                    context);
+                                              } else if (err.code ==
+                                                  'wrong-password') {
+                                                dialog.createDialog(
+                                                    "Contraseña incorrecta",
+                                                    context);
                                               }
-                                            );
-                                            incrementLogs(email.text, logs++);
+                                            });
                                           }
                                         },
                                         child: Text('Iniciar sesión',
@@ -403,10 +394,26 @@ class _LoginState extends State<Login> {
   }
 }
 
-Future<void> incrementLogs(String email, int logs) async {
-  print(logs);
-  await FirebaseFirestore.instance.collection('usuarios').doc(email).update({"numberOfLogs": logs});
-  print(logs);
+incrementLogs(String email) async {
+  await FirebaseFirestore.instance
+      .collection('usuarios')
+      .doc(email)
+      .update({"numberOfLogs": FieldValue.increment(1)});
+  print("SE HA INCREMENTADO");
 
   return;
+}
+
+getLogs(String email) async {
+  var numLogs;
+  await FirebaseFirestore.instance
+      .collection('usuarios')
+      .doc(email)
+      .get()
+      .then((res) => {numLogs = res.data()!['numberOfLogs'].toString()});
+
+  print("NUMBEROFLOGS OBTENIDO");
+  int num = int.parse(numLogs);
+  print(num);
+  return num;
 }

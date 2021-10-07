@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diaryly/dialog/createDialog.dart';
 import 'package:diaryly/login/loginScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
+  CreateDialog dialog = CreateDialog();
   final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
   late TextEditingController email, password, confirmPassword;
   bool seePassword = true;
@@ -215,33 +217,7 @@ class _RegistrationState extends State<Registration> {
                                                           print(err);
                                                           if (err ==
                                                               'email-already-in-use') {
-                                                            showDialog(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                                  return AlertDialog(
-                                                                    title: Text(
-                                                                        "Error"),
-                                                                    content: Text(
-                                                                        "Este e-mail ya está en uso"),
-                                                                    actions: <
-                                                                        Widget>[
-                                                                      TextButton(
-                                                                        child: Text(
-                                                                            "Cerrar",
-                                                                            style:
-                                                                                TextStyle(color: Colors.deepPurple[500])),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.of(context)
-                                                                              .pop();
-                                                                        },
-                                                                      )
-                                                                    ],
-                                                                  );
-                                                                });
+                                                            dialog.createDialog("Este e-mail ya está en uso", context);
                                                           } else {
                                                             //_registerFormKey.currentState.save();
                                                             Navigator.push(
@@ -260,29 +236,7 @@ class _RegistrationState extends State<Registration> {
                                                         }));
                                             createUserInCollection(email.text);
                                           } else {
-                                            showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    title: Text("Error"),
-                                                    content: Text(
-                                                        "Las contraseñas no coinciden"),
-                                                    actions: <Widget>[
-                                                      TextButton(
-                                                        child: Text("Cerrar",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                        .deepPurple[
-                                                                    500])),
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      )
-                                                    ],
-                                                  );
-                                                });
+                                            dialog.createDialog("Las contraseñas no coinciden", context);
                                           }
                                         }
                                       },

@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> {
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [HexColor("#120421"), HexColor("#371260"), HexColor("#6C3DA0"), HexColor("BB88F4")])),
+              colors: [HexColor("#000000"), HexColor("#432762")])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
           body: Center(
