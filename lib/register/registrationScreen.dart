@@ -275,6 +275,7 @@ Future<void> createUserInCollection(String email) async {
   FirebaseAuth auth = FirebaseAuth.instance;
   String uid = auth.currentUser!.uid.toString();
   user.doc(email).set({
+    "nickname": "",
     "e-mail": email,
     "uid": uid,
     "numberOfLogs": 0,

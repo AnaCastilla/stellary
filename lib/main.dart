@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(secondary: Colors.deepPurple[500]),
         brightness: Brightness.dark,
       ),
-      initialRoute: 'splash',
+      /*initialRoute: 'splash',
       routes: {
         'splash' : (context) => Splash(),
         'register' : (context) => Registration(),
@@ -36,7 +36,8 @@ class MyApp extends StatelessWidget {
         'question' : (context) => Questionnaire(),
         'home' : (context) => Home()
 
-      },
+      },*/
+      home: Splash(),
     );
   }
 }

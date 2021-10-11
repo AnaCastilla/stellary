@@ -5,18 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Questionnaire extends StatefulWidget {
-  late User user;
+  final User user;
 
-  Questionnaire({Key? key, User? user}) : super(key: key);
+  Questionnaire({Key? key, required this.user}) : super(key: key);
 
   @override
   _QuestionnaireState createState() => _QuestionnaireState();
 }
 
 class _QuestionnaireState extends State<Questionnaire> {
-  FirebaseAuth auth = FirebaseAuth.instance;
   late TextEditingController nickname;
-  late String email;
+  final GlobalKey<FormState> _nicknameFormKey = GlobalKey<FormState>();
   List<Category> category = [
     Category("Música", false),
     Category("Deportes", false),
@@ -46,12 +45,11 @@ class _QuestionnaireState extends State<Questionnaire> {
 
   initState() {
     nickname = new TextEditingController();
-    email = auth.currentUser!.email.toString();
     super.initState();
   }
 
   String? nicknameValidator(String? value) {
-    if (value!.length < 3) {
+    if (value!.length < 3 && value.length != 0) {
       return 'Nickname demasiado corto';
     } else if (value.length > 15) {
       return 'Nickname demasiado largo';
@@ -62,7 +60,7 @@ class _QuestionnaireState extends State<Questionnaire> {
 
   @override
   Widget build(BuildContext context) {
-    String? args = ModalRoute.of(context)!.settings.arguments as String?;
+    //String? args = ModalRoute.of(context)!.settings.arguments as String?;
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
@@ -115,26 +113,29 @@ class _QuestionnaireState extends State<Questionnaire> {
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
-                            child: TextFormField(
-                              controller: nickname,
-                              validator: nicknameValidator,
-                              cursorColor: Colors.white38,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
+                            child: Form(
+                              key: _nicknameFormKey,
+                              child: TextFormField(
+                                controller: nickname,
+                                validator: nicknameValidator,
+                                cursorColor: Colors.white38,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderSide:
+                                            BorderSide(color: Colors.black)),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              Colors.white70.withOpacity(0.35)),
                                       borderRadius: BorderRadius.circular(20.0),
-                                      borderSide:
-                                          BorderSide(color: Colors.black)),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color:
-                                            Colors.white70.withOpacity(0.35)),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  prefixIcon: Icon(Icons.tag_faces_outlined,
-                                      color: Colors.white),
-                                  filled: true,
-                                  hintText: "Nickname",
-                                  fillColor: Colors.white70.withOpacity(0.35)),
+                                    ),
+                                    prefixIcon: Icon(Icons.tag_faces_outlined,
+                                        color: Colors.white),
+                                    filled: true,
+                                    hintText: "Nickname",
+                                    fillColor: Colors.white70.withOpacity(0.35)),
+                              ),
                             ),
                           ),
                           Padding(
@@ -149,16 +150,13 @@ class _QuestionnaireState extends State<Questionnaire> {
                                   onPrimary: Colors.white,
                                 ),
                                 onPressed: () async {
-                                  print(args);
-                                  if (nickname.text.isNotEmpty) {
-                                    createNickname(args![1], nickname.text);
-                                  } else {
-                                    createNickname(args![1], "");
+                                  if (_nicknameFormKey.currentState!.validate()) {
+                                    createNickname(widget.user.email!, nickname.text);
                                   }
-
                                 },
-                                child: Text("Continuar"),
-                              ))
+                                child: Text("Continuar",
+                                    style: GoogleFonts.varelaRound())),
+                              )
                         ],
                       ),
                     ),
@@ -171,7 +169,7 @@ class _QuestionnaireState extends State<Questionnaire> {
 
 Future<void> createNickname(String email, String nickname) async {
   CollectionReference user = FirebaseFirestore.instance.collection('usuarios');
-  user.doc(email).set({"nickname": nickname});
+  user.doc(email).update({"nickname": nickname});
 
   return;
 }

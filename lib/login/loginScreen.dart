@@ -259,19 +259,19 @@ class _LoginState extends State<Login> {
                                                         .then(
                                                           (DocumentSnapshot
                                                                   result) =>
-                                                              /*Navigator.push(
+                                                              Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
                                                                     builder: (context) =>
                                                                         Questionnaire(
                                                                             user:
-                                                                                currentUser.user),*/
-                                                                     Navigator.pushNamed(
+                                                                                currentUser.user!),
+                                                                   /*  Navigator.pushNamed(
                                                                     context, 'question',
                                                                     arguments:
                                                                         [currentUser.user, email.text]),
-                                                                  )
-                                                        )
+                                                                  )*/
+                                                        ))))
                                                 .catchError((err) {
                                               print(err);
                                               if (err.code ==
