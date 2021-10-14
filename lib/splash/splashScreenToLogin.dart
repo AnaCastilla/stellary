@@ -1,23 +1,23 @@
+import 'package:diaryly/home/HomeOrQuestionnaire.dart';
 import 'package:diaryly/login/loginScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class Splash extends StatefulWidget {
-  const Splash({Key? key}) : super(key: key);
+class SplashToLogin extends StatefulWidget {
+  const SplashToLogin({Key? key}) : super(key: key);
 
   @override
-  State<Splash> createState() => _SplashState();
+  State<SplashToLogin> createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashState extends State<SplashToLogin> {
   void initState() {
     super.initState();
     _navigateToLogin();
   }
 
   _navigateToLogin() async {
-    await Future.delayed(Duration(milliseconds: 4000), () {});
+    await Future.delayed(Duration(milliseconds: 3000), () {});
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Login()));
   }
