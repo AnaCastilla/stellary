@@ -19,35 +19,47 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: FutureBuilder(
-        future: getUserNickname(widget.user.email!),
-        builder: (context, snapshot) {
-          return SingleChildScrollView(
-              child: Center(
-                  child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 30, top: 40),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: CircleAvatar(
-                                    backgroundColor: Colors.transparent,
-                                    child: Image.asset('assets/avatar.png',
-                                      color: Colors.deepPurple,)
+          future: getUserNickname(widget.user.email!),
+          builder: (context, snapshot) {
+            return SingleChildScrollView(
+                child: Center(
+                    child: Column(children: [
+              Padding(
+                padding: EdgeInsets.only(left: 30, top: 40),
+                child: Row(
+                  children: [
+                    FutureBuilder<Object>(
+                      future: getProfilePic(widget.user.email!),
+                      builder: (context, pic) {
+                        return CircleAvatar(
+                          radius: 60,
+                            backgroundColor: Colors.transparent,
+                          child: ClipOval(
+                            child: SizedBox(
+                              height: 150,
+                              width: 150,
+                                child: (pic.data
+                                    .toString() != "") ? Image
+                                    .network(pic.data.toString(),
+                                    fit: BoxFit.cover) :
+                                Image.asset("assets/avatar.png",
+                                  fit: BoxFit.cover,
+                                  color: Colors.white,),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Text((snapshot.data.toString()=="")? widget.user.email! : snapshot.data.toString()),
-                              )
-                            ],
-                          ),
-                        )
-                      ])));
-        }
-      ),
+                          ));
+                      }
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text((snapshot.data.toString() == "")
+                          ? widget.user.email!
+                          : snapshot.data.toString()),
+                    )
+                  ],
+                ),
+              )
+            ])));
+          }),
     );
   }
 }
@@ -61,4 +73,15 @@ Future<String> getUserNickname(String email) async {
       .then((res) => {name = res.data()!['nickname'].toString()});
 
   return name;
+}
+
+Future<String> getProfilePic(String email) async {
+  var pic;
+  await FirebaseFirestore.instance
+      .collection('usuarios')
+      .doc(email)
+      .get()
+      .then((res) => {pic = res.data()!['profilePic'].toString()});
+
+  return pic;
 }
