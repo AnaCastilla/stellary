@@ -297,6 +297,7 @@ Future<void> createUserInCollection(String email) async {
     "e-mail": email,
     "uid": uid,
     "numberOfLogs": 0,
+    "profilePic": "",
     "registradoDia": DateTime.now().day,
     "registradoMes": DateTime.now().month,
     "registradoYear": DateTime.now().year,});

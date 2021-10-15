@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryly/categories/categories.dart';
 import 'package:diaryly/dialog/createDialog.dart';
+import 'package:diaryly/home/Home.dart';
 import 'package:diaryly/home/home/homeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -175,7 +176,7 @@ class _QuestionnaireState extends State<Questionnaire> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  HomeScreen(user: widget.user)));
+                                                  Home(user: widget.user)));
                                     }
                                   },
                                   child: Text("Continuar",

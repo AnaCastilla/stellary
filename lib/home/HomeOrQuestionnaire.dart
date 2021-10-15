@@ -3,7 +3,6 @@ import 'package:diaryly/home/Home.dart';
 import 'package:diaryly/questionnaire/questionnaireScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'home/homeScreen.dart';
 
 class HomeOrQuestionnaire extends StatefulWidget {
   const HomeOrQuestionnaire({Key? key}) : super(key: key);
@@ -21,16 +20,6 @@ class _HomeOrQuestionnaireState extends State<HomeOrQuestionnaire> {
         body: FutureBuilder<bool>(
           future: getNumberOfLogs(user.email!),
           builder: (context, snapshot) {
-            /*return Padding(
-            padding: EdgeInsets.only(top:90),
-            child: TextButton(
-              onPressed: () async {
-                print(user.email);
-                print(snapshot.data);
-              },
-              child: Text('sgmdsgdsg'),
-            ),
-          );*/
             return (snapshot.data == false)
                 ? Home(user: user)
                 : Questionnaire(

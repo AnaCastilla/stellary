@@ -17,6 +17,7 @@ import 'home/homeScreen.dart';
 
 class Home extends StatefulWidget {
   final User user;
+
   Home({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -51,80 +52,78 @@ class _HomeState extends State<Home> {
                 ),
                 backgroundColor: Colors.transparent,
                 drawer: Drawer(
-                    child: ListView(
-                        children: [
-                          SizedBox(
-                            height: 200,
-                            width: 300,
-                            child: UserAccountsDrawerHeader(
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent
-
-                              ),
-                              accountName: Text("STELLARY", style: GoogleFonts.poiretOne(fontSize: 30, color: Colors.white, letterSpacing: 8)),
-                              accountEmail: Text(""),
-                              currentAccountPicture: CircleAvatar(
-                                  backgroundColor: Colors.transparent,
-                                  child: Image.asset('assets/icon.png')
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            title: Text("Home"),
-                            leading: Icon(Icons.home, color: Colors.white,),
-                            onTap: () {
-                              Navigator.of(context).pop();
-
-                            },
-                          ),
-                          ListTile(
-                            title: Text("Perfil"),
-                            leading: Icon(Icons.person, color: Colors.white,),
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) =>
-                                        Profile(),
-                                  ));
-
-                            },
-                          ),
-                          ListTile(
-                            title: Text("Ajustes"),
-                            leading: Icon(Icons.settings, color: Colors.white,),
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) =>
-                                        Settings(),
-                                  ));
-                            },
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: Text("Cerrar sesión"),
-                            leading: Icon(Icons.logout, color: Colors.white),
-                            onTap: () {
-                              _auth.signOut();
-                              Fluttertoast.showToast(msg: 'Sesión cerrada');
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) =>
-                                        Login(),
-                                  ));
-                            },
-                          ),
-                        ]
-                    )
-                ),
+                    child: ListView(children: [
+                  SizedBox(
+                    height: 200,
+                    width: 300,
+                    child: UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(color: Colors.transparent),
+                      accountName: Text("STELLARY",
+                          style: GoogleFonts.poiretOne(
+                              fontSize: 30,
+                              color: Colors.white,
+                              letterSpacing: 8)),
+                      accountEmail: Text(""),
+                      currentAccountPicture: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          child: Image.asset('assets/icon.png')),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text("Home"),
+                    leading: Icon(
+                      Icons.home,
+                      color: Colors.white,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Perfil"),
+                    leading: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Profile(user: widget.user),
+                          ));
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Ajustes"),
+                    leading: Icon(
+                      Icons.settings,
+                      color: Colors.white,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Settings(),
+                          ));
+                    },
+                  ),
+                  Divider(),
+                  ListTile(
+                    title: Text("Cerrar sesión"),
+                    leading: Icon(Icons.logout, color: Colors.white),
+                    onTap: () {
+                      _auth.signOut();
+                      Fluttertoast.showToast(msg: 'Sesión cerrada');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                          ));
+                    },
+                  ),
+                ])),
                 bottomNavigationBar: CurvedNavigationBar(
                   key: _bottomNavigationKey,
                   index: 0,
