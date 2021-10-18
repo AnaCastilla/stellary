@@ -344,16 +344,3 @@ incrementLogs(String email) async {
   print("SE HA INCREMENTADO");
 }
 
-/*getLogs(String email) async {
-  var numLogs;
-  await FirebaseFirestore.instance
-      .collection('usuarios')
-      .doc(email)
-      .get()
-      .then((res) => {numLogs = res.data()!['numberOfLogs'].toString()});
-
-  print("NUMBEROFLOGS OBTENIDO");
-  int num = int.parse(numLogs);
-  print(num);
-  return num;
-}*/

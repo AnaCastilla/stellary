@@ -115,9 +115,10 @@ class _HomeState extends State<Home> {
                     leading: Icon(Icons.logout, color: Colors.white),
                     onTap: () {
                       _auth.signOut();
-                      Navigator.of(context).push(
+                      /*Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => Login()));
+                              builder: (context) => Login()));*/
+                      Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
                       Fluttertoast.showToast(msg: 'Sesión cerrada');
                       Navigator.push(
                           context,

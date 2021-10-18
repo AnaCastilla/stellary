@@ -14,6 +14,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      getProfilePic(widget.user.email!);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,22 +41,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     FutureBuilder<Object>(
                       future: getProfilePic(widget.user.email!),
                       builder: (context, pic) {
-                        return CircleAvatar(
-                          radius: 60,
-                            backgroundColor: Colors.transparent,
-                          child: ClipOval(
-                            child: SizedBox(
-                              height: 150,
-                              width: 150,
-                                child: (pic.data
-                                    .toString() != "") ? Image
-                                    .network(pic.data.toString(),
-                                    fit: BoxFit.cover) :
-                                Image.asset("assets/avatar.png",
-                                  fit: BoxFit.cover,
-                                  color: Colors.white,),
+                        if (!pic.hasData) {
+                          return Container(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        } else {
+                          return CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.transparent,
+                              child: ClipOval(
+                                child: SizedBox(
+                                  height: 150,
+                                  width: 150,
+                                  child: (pic.data
+                                      .toString() != "") ? Image
+                                      .network(pic.data.toString(),
+                                      fit: BoxFit.cover) :
+                                  Image.asset("assets/avatar.png",
+                                    fit: BoxFit.cover,
+                                    color: Colors.white,),
                                 ),
-                          ));
+                              ));
+                        }
                       }
                     ),
                     Padding(

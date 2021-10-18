@@ -1,5 +1,7 @@
 import 'dart:io';
-import 'package:diaryly/api/FirestoreApi.dart';
+import 'package:diaryly/home/Home.dart';
+import 'package:diaryly/home/home/homeScreen.dart';
+import 'package:diaryly/services/api/FirestoreApi.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
@@ -12,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 
 class Profile extends StatefulWidget {
   final User user;
+
   Profile({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -19,56 +22,62 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  File? image;
+  File? file;
   UploadTask? task;
 
   initState() {
     super.initState();
-
+    getProfilePic(widget.user.email!);
   }
 
-  Future getImage() async {
+  getImage() async {
     try {
-      final image = await ImagePicker.platform.pickImage(
-          source: ImageSource.gallery);
-      if (image == null) return;
-      print(image.path);
-      String path = image.path;
+      final image =
+          await ImagePicker.platform.pickImage(source: ImageSource.gallery);
 
-      final imagePermanent = await saveImagePermanently(image.path);
-
-      setState(() => this.image = imagePermanent);
+      setState(() {
+        print(image!.path);
+        file = File(image.path);
+      });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
   }
 
-  Future<File> saveImagePermanently(String imagePath) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final name = basename(imagePath);
-    final image = File('${directory.path}/$name');
-
-    return File(imagePath).copy(image.path);
-  }
-
   Future<String> uploadFile() async {
-    final fileName = basename(image!.path);
-    final destination = '$fileName';
+    TaskSnapshot taskSnapshot = await FirebaseStorage.instance
+        .ref()
+        .child("profile")
+        .child(widget.user.email!)
+        .putFile(file!);
 
-    task = FirebaseApi.uploadImage(destination, image!);
-
-    final snapshot = await task!.whenComplete(() {});
-    final urlDownload = await snapshot.ref.getDownloadURL();
-
-    print(urlDownload);
-    setState(() {
-      setProfilePic(widget.user.email!, urlDownload);
-    });
-
-
-    return urlDownload;
+    return taskSnapshot.ref.getDownloadURL();
   }
 
+  updateProfile(BuildContext context) async {
+    Map<String, dynamic> map = Map();
+    if (file != null) {
+      String url = await uploadFile();
+      map['profilePic'] = url;
+      setProfilePic(widget.user.email!, url);
+    }
+
+    //map['name'] = _name update nombre, nickname y toido eso
+    //Navigator.pop(context);
+    Navigator.push( context, MaterialPageRoute( builder: (context) => Home(user: widget.user)), ).then((value) => setState(() {}));
+
+  }
+
+  Future<String> getProfilePic(String email) async {
+    var pic;
+    await FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(email)
+        .get()
+        .then((res) => {pic = res.data()!['profilePic'].toString()});
+
+    return pic;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,66 +112,53 @@ class _ProfileState extends State<Profile> {
                               children: [
                                 Align(
                                     alignment: Alignment.center,
-                                    child: CircleAvatar(
-                                            radius: 90,
-                                            backgroundColor: Colors.transparent,
-                                            child: ClipOval(
-                                              child: SizedBox(
-                                                width: 160,
-                                                height: 160,
-                                                child: (snapshots.data
-                                                    .toString() != "") ? Image
-                                                    .network(snapshots.data.toString(),
-                                                    fit: BoxFit.cover) :
-                                                Image.asset("assets/avatar.png",
-                                                  fit: BoxFit.cover,
-                                                  color: Colors.white,),
-                                              ),
-
-                                            )
-                                    )
-                                ),
-
+                                    child: InkWell(
+                                      onTap: () {
+                                        getImage();
+                                      },
+                                      child: CircleAvatar(
+                                          radius: 90,
+                                          backgroundColor: Colors.transparent,
+                                          child: ClipOval(
+                                            child: SizedBox(
+                                              width: 160,
+                                              height: 160,
+                                              child:
+                                                  (snapshots.data.toString() !=
+                                                          "")
+                                                      ? (file != null)
+                                                          ? Image.file(file!,
+                                                              fit: BoxFit.cover)
+                                                          : Image.network(
+                                                              snapshots.data
+                                                                  .toString(),
+                                                              fit: BoxFit.cover)
+                                                      : Image.asset(
+                                                          "assets/avatar.png",
+                                                          fit: BoxFit.cover,
+                                                          color: Colors.white,
+                                                        ),
+                                            ),
+                                          )),
+                                    )),
                               ],
                             ),
-
-                            TextButton(
-                              child: Text("Cambiar imagen de perfil"),
-                              onPressed: () {
-                                setState(() {
-                                  getImage();
-
-                                });
-                                uploadFile();
-                              },
-                            )
+                            ElevatedButton(
+                                onPressed: () {
+                                  updateProfile(context);
+                                },
+                                child: Text("UPDATE PROFILE"))
                           ],
                         );
                       }
-                    }
-                )
-            ),
+                    })),
           ),
-
-
-        )
-    );
+        ));
   }
 }
 
-Future<String> getProfilePic(String email) async {
-  var pic;
-  await FirebaseFirestore.instance
-      .collection('usuarios')
-      .doc(email)
-      .get()
-      .then((res) => {pic = res.data()!['profilePic'].toString()});
-
-  return pic;
-}
-
 setProfilePic(String email, String path) async {
-  CollectionReference user = FirebaseFirestore.instance.collection('usuarios');
-  user.doc(email).set({"profilePic": path}, SetOptions(merge:true));
+  CollectionReference user =
+      await FirebaseFirestore.instance.collection('usuarios');
+  user.doc(email).update({'profilePic': path});
 }
-

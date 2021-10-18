@@ -137,12 +137,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                                             onPressed: () async {
                                               if (_resetFormKey.currentState!
                                                   .validate()) {
-                                                //await auth.newUser(email.text, password.text);
-                                                /* if (err ==
-                                                                'email-already-in-use') {
-                                                              dialog.createDialog("Este e-mail ya está en uso", context);
-                                                            } else {*/
-                                                //_registerFormKey.currentState.save();
                                                 _auth.sendPasswordResetEmail(email: email.text);
                                                 Navigator.push(
                                                     context,
