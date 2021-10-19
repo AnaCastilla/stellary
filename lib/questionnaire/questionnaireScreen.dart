@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryly/categories/categories.dart';
 import 'package:diaryly/dialog/createDialog.dart';
 import 'package:diaryly/home/Home.dart';
-import 'package:diaryly/home/home/homeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

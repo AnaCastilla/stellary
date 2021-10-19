@@ -219,8 +219,23 @@ class _RegistrationState extends State<Registration> {
                                                   .then(
                                                       (currentUser) =>
                                                           {
-                                                      createUserInCollection(email.text)
-
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                "usuarios")
+                                                                .add({
+                                                              "e-mail": email,
+                                                              "numberOfLogs": 0,
+                                                              "registradoDia": DateTime
+                                                                  .now()
+                                                                  .day,
+                                                              "registradoMes": DateTime
+                                                                  .now()
+                                                                  .month,
+                                                              "registradoYear": DateTime
+                                                                  .now()
+                                                                  .year,
+                                                            })
                                                           }).catchError((err) {
                                                             print(err);
                                                             if (err ==
@@ -242,6 +257,7 @@ class _RegistrationState extends State<Registration> {
                                                                       'Usuario registrado');
                                                             }
                                                           });
+                                              createUserInCollection(email.text);
 
                                             } else {
                                               dialog.createDialog("Las contraseñas no coinciden", context);

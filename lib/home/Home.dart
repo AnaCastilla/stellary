@@ -29,11 +29,14 @@ class _HomeState extends State<Home> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
+  signOut() async {
+    await _auth.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screen = [
       HomeScreen(user: widget.user),
-      CalendarScreen(),
       DiaryScreen(),
       NewsScreen(),
       ChatScreen()
@@ -113,12 +116,9 @@ class _HomeState extends State<Home> {
                   ListTile(
                     title: Text("Cerrar sesión"),
                     leading: Icon(Icons.logout, color: Colors.white),
-                    onTap: () {
-                      _auth.signOut();
-                      /*Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => Login()));*/
-                      Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
+                    onTap: ()  {
+                      //signOut();
+                      //Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
                       Fluttertoast.showToast(msg: 'Sesión cerrada');
                       Navigator.push(
                           context,
@@ -138,8 +138,6 @@ class _HomeState extends State<Home> {
                       size: 30,
                       color: Colors.white,
                     ),
-                    Icon(Icons.calendar_today_outlined,
-                        size: 25, color: Colors.white),
                     Padding(
                       padding: const EdgeInsets.only(top: 3.0),
                       child: SizedBox(

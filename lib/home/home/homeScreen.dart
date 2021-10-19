@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryly/dialog/createDialog.dart';
+import 'package:diaryly/home/diary/diaryScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       getProfilePic(widget.user.email!);
@@ -27,6 +27,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add_outlined),
+        onPressed: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => DiaryScreen()));
+
+        },
+      ),
       backgroundColor: Colors.transparent,
       body: FutureBuilder(
           future: getUserNickname(widget.user.email!),
@@ -34,47 +43,67 @@ class _HomeScreenState extends State<HomeScreen> {
             return SingleChildScrollView(
                 child: Center(
                     child: Column(children: [
-              Padding(
-                padding: EdgeInsets.only(left: 30, top: 40),
-                child: Row(
-                  children: [
-                    FutureBuilder<Object>(
-                      future: getProfilePic(widget.user.email!),
-                      builder: (context, pic) {
-                        if (!pic.hasData) {
-                          return Container(
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        } else {
-                          return CircleAvatar(
-                              radius: 60,
-                              backgroundColor: Colors.transparent,
-                              child: ClipOval(
-                                child: SizedBox(
-                                  height: 150,
-                                  width: 150,
-                                  child: (pic.data
-                                      .toString() != "") ? Image
-                                      .network(pic.data.toString(),
-                                      fit: BoxFit.cover) :
-                                  Image.asset("assets/avatar.png",
-                                    fit: BoxFit.cover,
-                                    color: Colors.white,),
-                                ),
-                              ));
-                        }
+              Column(
+                children: [
+                  FutureBuilder<Object>(
+                    future: getProfilePic(widget.user.email!),
+                    builder: (context, pic) {
+                      if (!pic.hasData) {
+                        return Container(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      } else {
+                        return CircleAvatar(
+                            radius: 80,
+                            backgroundColor: Colors.transparent,
+                            child: ClipOval(
+                              child: SizedBox(
+                                height: 200,
+                                width: 200,
+                                child: (pic.data
+                                    .toString() != "") ? Image
+                                    .network(pic.data.toString(),
+                                    fit: BoxFit.cover) :
+                                Image.asset("assets/avatar.png",
+                                  fit: BoxFit.cover,
+                                  color: Colors.white,),
+                              ),
+                            ));
                       }
+                    }
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text((snapshot.data.toString() == "")
+                        ? widget.user.email!
+                        : snapshot.data.toString(), style: GoogleFonts.overTheRainbow(fontSize: 35, fontWeight: FontWeight.bold),),
+                  ),
+                Container(
+                    height: MediaQuery.of(context).size.height / 1.9,
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(
+                        left: 30, right: 30, bottom: 40),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text((snapshot.data.toString() == "")
-                          ? widget.user.email!
-                          : snapshot.data.toString()),
-                    )
-                  ],
-                ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 80.0),
+                    child: Column(
+                        children: [
+                          Text("BUILDING...", style: GoogleFonts.bungeeShade(fontSize: 40)),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Icon(Icons.tag_faces_rounded, size: 50,),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               )
             ])));
           }),

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class UserModel {
+  final List<String> categories;
   final String email, nickname;
   final String uid;
   final int numberOfLogs;
@@ -9,21 +10,20 @@ class User {
 
   String get photo => this.photo;
 
-  User(
-      {required this.email, required this.uid, required this.numberOfLogs, required this.profilePic, required this.day, required this.month, required this.year, required this.nickname});
+  UserModel(
+      {required this.categories, required this.email, required this.nickname, required this.numberOfLogs, required this.profilePic, required this.day, required this.month, required this.year, required this.uid});
 
-  factory User.fromFirestore(DocumentSnapshot doc) {
-    Map? data = doc.data() as Map?;
-
-    return User(
-      email: data!['email'],
-      uid: data['uid'],
+  factory UserModel.fromFirestore(Map<String, dynamic>? data) {
+    return UserModel(
+      categories: data!['categories'],
+      email: data['email'],
+      nickname: data['nickname'] ?? "",
       numberOfLogs: data['numberOfLogs'],
       profilePic: data['profilePic'] ?? "",
       day: data['day'],
       month: data['month'],
       year: data['year'],
-      nickname: data['nickname'] ?? "",
+      uid: data['uid'],
     );
 
   }
