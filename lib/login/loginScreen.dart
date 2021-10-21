@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryly/dialog/createDialog.dart';
-import 'package:diaryly/home/HomeOrQuestionnaire.dart';
-import 'package:diaryly/questionnaire/questionnaireScreen.dart';
 import 'package:diaryly/register/registrationScreen.dart';
 import 'package:diaryly/resetPassword/resetPasswordScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +9,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
-
   Login({Key? key}) : super(key: key);
 
   @override
@@ -24,12 +21,13 @@ class _LoginState extends State<Login> {
   late TextEditingController email;
   late TextEditingController password;
   String emailValue = "E-mail";
-  bool seePassword = true, rememberValue = false;
+  bool seePassword = true, rememberMe = false;
 
   @override
   initState() {
     email = new TextEditingController();
     password = new TextEditingController();
+    _loadUserEmailPassword();
     super.initState();
   }
 
@@ -58,22 +56,21 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  HexColor("#000000"),
-                  HexColor("#000000"),
-                  HexColor("#000000"),
-                  HexColor("#000000"),
-                  HexColor("#000000"),
-                  HexColor("#000000"),
-                  HexColor("#200A37")
+              HexColor("#000000"),
+              HexColor("#000000"),
+              HexColor("#000000"),
+              HexColor("#000000"),
+              HexColor("#000000"),
+              HexColor("#000000"),
+              HexColor("#200A37")
             ])),
-        child:
-        WillPopScope(
+        child: WillPopScope(
           onWillPop: _onWillPopScope,
           child: Scaffold(
               backgroundColor: Colors.transparent,
@@ -130,7 +127,8 @@ class _LoginState extends State<Login> {
                                           left: 20, right: 20, top: 40),
                                       child: TextFormField(
                                         controller: email,
-                                        keyboardType: TextInputType.emailAddress,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
                                         validator: emailValidator,
                                         cursorColor: Colors.white38,
                                         decoration: InputDecoration(
@@ -150,8 +148,8 @@ class _LoginState extends State<Login> {
                                                 color: Colors.white),
                                             filled: true,
                                             hintText: emailValue,
-                                            fillColor:
-                                                Colors.white70.withOpacity(0.35)),
+                                            fillColor: Colors.white70
+                                                .withOpacity(0.35)),
                                       ),
                                     ),
                                     Container(
@@ -178,7 +176,9 @@ class _LoginState extends State<Login> {
                                             prefixIcon: Icon(Icons.lock,
                                                 color: Colors.white),
                                             suffixIcon: IconButton(
-                                                icon: (!seePassword)? Icon(Icons.visibility_off):Icon(Icons.visibility),
+                                                icon: (!seePassword)
+                                                    ? Icon(Icons.visibility_off)
+                                                    : Icon(Icons.visibility),
                                                 color: Colors.white,
                                                 onPressed: () {
                                                   setState(() {
@@ -187,8 +187,8 @@ class _LoginState extends State<Login> {
                                                 }),
                                             filled: true,
                                             hintText: "Contraseña",
-                                            fillColor:
-                                                Colors.white70.withOpacity(0.35)),
+                                            fillColor: Colors.white70
+                                                .withOpacity(0.35)),
                                       ),
                                     ),
                                     InkWell(
@@ -219,14 +219,9 @@ class _LoginState extends State<Login> {
                                       padding: EdgeInsets.only(left: 10),
                                       child: Row(children: [
                                         Checkbox(
-                                            value: rememberValue,
+                                            value: rememberMe,
                                             activeColor: Colors.deepPurple,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                rememberValue = newValue!;
-                                                print(rememberValue);
-                                              });
-                                            }),
+                                            onChanged: _handleRememberMe),
                                         Text("Recordar mis datos",
                                             style: GoogleFonts.varelaRound())
                                       ]),
@@ -247,13 +242,6 @@ class _LoginState extends State<Login> {
                                           ),
                                           onPressed: () async {
                                             incrementLogs(email.text);
-                                            if (rememberValue == true) {
-                                             /* FirebaseAuth.instance
-                                                  .setPersistence(
-                                                      Persistence.LOCAL);*/
-                                              SharedPreferences prefs = await SharedPreferences.getInstance();
-                                              prefs.setString('email', email.text);
-                                            }
                                             if (_loginFormKey.currentState!
                                                 .validate()) {
                                               FirebaseAuth.instance
@@ -262,20 +250,20 @@ class _LoginState extends State<Login> {
                                                       password: password.text)
                                                   .then((currentUser) =>
                                                       FirebaseFirestore.instance
-                                                          .collection("usuarios")
+                                                          .collection(
+                                                              "usuarios")
                                                           .doc(currentUser
                                                               .toString())
                                                           .get()
                                                           .then(
                                                             (DocumentSnapshot
                                                                     result) =>
-                                                                Navigator.of(context).pushNamed('home', arguments:
-                                                                                  currentUser.user!),
-                                                                     /*  Navigator.pushNamed(
-                                                                      context, 'question',
-                                                                      arguments:
-                                                                          [currentUser.user, email.text]),
-                                                                    )*/
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pushNamed(
+                                                                        'home',
+                                                                        arguments:
+                                                                            currentUser.user!),
                                                           ))
                                                   .catchError((err) {
                                                 print(err);
@@ -294,9 +282,10 @@ class _LoginState extends State<Login> {
                                             }
                                           },
                                           child: Text('Iniciar sesión',
-                                              style: GoogleFonts.varelaRound())),
+                                              style:
+                                                  GoogleFonts.varelaRound())),
                                     ),
-                          ]));
+                                  ]));
                         },
                       ),
                     ),
@@ -326,14 +315,49 @@ class _LoginState extends State<Login> {
                       ))
                 ])),
               )),
-        )
-    );
+        ));
   }
 
   Future<bool> _onWillPopScope() {
     CreateDialog dialog = CreateDialog();
     return dialog.createDialogCloseApp("¿Quieres salir de Stellary?", context);
   }
+
+  void _handleRememberMe(bool? value) {
+    rememberMe = value!;
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        prefs.setBool("remember_me", value);
+        prefs.setString('email', email.text);
+        prefs.setString('password', password.text);
+      },
+    );
+    setState(() {
+      rememberMe = value;
+    });
+  }
+
+  void _loadUserEmailPassword() async {
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      var _email = _prefs.getString("email") ?? "";
+      var _password = _prefs.getString("password") ?? "";
+      var _rememberMe = _prefs.getBool("remember_me") ?? false;
+      print(_rememberMe);
+      print(_email);
+      print(_password);
+      if (_rememberMe) {
+        setState(() {
+          rememberMe = true;
+        });
+        email.text = _email;
+        password.text = _password;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
 }
 
 incrementLogs(String email) async {
@@ -343,4 +367,3 @@ incrementLogs(String email) async {
       .update({"numberOfLogs": FieldValue.increment(1)});
   print("SE HA INCREMENTADO");
 }
-

@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final screen = [
       HomeScreen(user: widget.user),
-      DiaryScreen(),
+      DiaryScreen(user: widget.user),
       NewsScreen(),
       ChatScreen()
     ];
@@ -71,16 +71,6 @@ class _HomeState extends State<Home> {
                           backgroundColor: Colors.transparent,
                           child: Image.asset('assets/icon.png')),
                     ),
-                  ),
-                  ListTile(
-                    title: Text("Home"),
-                    leading: Icon(
-                      Icons.home,
-                      color: Colors.white,
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
                   ),
                   ListTile(
                     title: Text("Perfil"),

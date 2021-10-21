@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diaryly/dialog/createDialog.dart';
-import 'package:diaryly/home/diary/diaryScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,15 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add_outlined),
-        onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) => DiaryScreen()));
-
-        },
-      ),
       backgroundColor: Colors.transparent,
       body: FutureBuilder(
           future: getUserNickname(widget.user.email!),
@@ -75,10 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 5),
                     child: Text((snapshot.data.toString() == "")
                         ? widget.user.email!
-                        : snapshot.data.toString(), style: GoogleFonts.overTheRainbow(fontSize: 35, fontWeight: FontWeight.bold),),
+                        : snapshot.data.toString(), style: GoogleFonts.theGirlNextDoor(fontSize: 35, fontWeight: FontWeight.bold),),
                   ),
                 Container(
                     height: MediaQuery.of(context).size.height / 1.9,
