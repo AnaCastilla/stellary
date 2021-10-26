@@ -78,7 +78,7 @@ class _LoginState extends State<Login> {
                 child: Center(
                     child: Column(children: [
                   Image.asset(
-                    "assets/starfall.gif",
+                    "assets/starfall1.gif",
                   ),
                   Container(
                       alignment: Alignment.topLeft,

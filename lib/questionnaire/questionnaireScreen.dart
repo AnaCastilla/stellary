@@ -24,10 +24,8 @@ class _QuestionnaireState extends State<Questionnaire> {
     Category("Deportes", false),
     Category("Actividades al aire libre", false),
     Category("Tecnología", false),
-    Category("E-Sports", false),
-    Category("Gaming", false),
+    Category("E-Sports y gaming", false),
     Category("Actualidad", false),
-    Category("K-Pop", false),
     Category("Política", false),
     Category("Cine", false),
     Category("Alimentación", false),
@@ -44,6 +42,7 @@ class _QuestionnaireState extends State<Questionnaire> {
     Category("Profesiones", false),
     Category("Programación", false),
     Category("Viajes", false),
+    Category("Universo", false),
   ];
 
   initState() {

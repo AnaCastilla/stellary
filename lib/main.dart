@@ -14,6 +14,7 @@ Future<void> main() async {
   initializeDateFormatting('es_ES').then((_) =>runApp(ChangeNotifierProvider(
     create: (context) => DiaryPage(),
     child: MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.white,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(secondary: Colors.deepPurple[500]),

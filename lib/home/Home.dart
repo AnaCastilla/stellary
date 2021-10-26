@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
     final screen = [
       HomeScreen(user: widget.user),
       DiaryScreen(user: widget.user),
-      NewsScreen(),
+      NewsScreen(user: widget.user),
       ChatScreen()
     ];
     return Container(
