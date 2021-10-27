@@ -92,7 +92,7 @@ categoryPhoto(String categoryName) {
   switch(categoryName) {
     case 'Música':
       return 'music.jpg';
-    case 'Deportes':
+    case 'Deporte':
       return 'sports.jpg';
     case 'Actividades al aire libre':
       return 'activities.jpg';

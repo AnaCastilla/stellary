@@ -21,7 +21,7 @@ class _QuestionnaireState extends State<Questionnaire> {
   List<String> selectedCategories = [];
   List<Category> categories = [
     Category("Música", false),
-    Category("Deportes", false),
+    Category("Deporte", false),
     Category("Actividades al aire libre", false),
     Category("Tecnología", false),
     Category("E-Sports y gaming", false),
@@ -33,7 +33,6 @@ class _QuestionnaireState extends State<Questionnaire> {
     Category("Ciencia", false),
     Category("Salud", false),
     Category("Moda y belleza", false),
-    Category("Eventos", false),
     Category("Animales", false),
     Category("Arte y cultura", false),
     Category("Libros y literatura", false),
