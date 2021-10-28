@@ -1,7 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:diaryly/dialog/createDialog.dart';
-import 'package:diaryly/home/calendar/calendarScreen.dart';
-import 'package:diaryly/home/chats/chatScreen.dart';
 import 'package:diaryly/home/diary/diaryScreen.dart';
 import 'package:diaryly/home/news/newsScreen.dart';
 import 'package:diaryly/login/loginScreen.dart';
@@ -13,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import 'chats/chatSelectScreen.dart';
 import 'home/homeScreen.dart';
 
 class Home extends StatefulWidget {
@@ -39,7 +38,7 @@ class _HomeState extends State<Home> {
       HomeScreen(user: widget.user),
       DiaryScreen(user: widget.user),
       NewsScreen(user: widget.user),
-      ChatScreen()
+      ChatSelect(user: widget.user)
     ];
     return Container(
         decoration: BoxDecoration(

@@ -19,46 +19,38 @@ class _NewsScreenState extends State<NewsScreen> {
   Widget build(BuildContext context) {
     return Container(
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('usuarios')
-            .doc(widget.user.email!)
-            .snapshots(),
-        builder: (context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-          List<dynamic> values;
-          if(snapshot.data == null) {
-            return CircularProgressIndicator();
-          } else {
-            values = snapshot.data!.get('categories');
-
-            return !snapshot.hasData ?
-            Center(child: CircularProgressIndicator()) :
-            Container(
-                child:
-                ListView.builder(
-                    itemCount: values.length,
-                    itemBuilder: (context, index) {
-                      return getCategoriesList(context, snapshot.data!.get('categories')[index]);
-                    }
-                ));
-          }
-
-
-        }
-      ),
+          stream: FirebaseFirestore.instance
+              .collection('usuarios')
+              .doc(widget.user.email!)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+            List<dynamic> values;
+            if (snapshot.data == null) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              values = snapshot.data!.get('categories');
+              return values.length == 0
+                  ? Container(
+                      alignment: Alignment.center,
+                      child: Text(':(\n\n No hay categorías para mostrar',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.varelaRound(
+                              fontSize: 27,
+                              color: Colors.white.withOpacity(0.3))))
+                  : !snapshot.hasData
+                      ? Center(child: CircularProgressIndicator())
+                      : Container(
+                          child: ListView.builder(
+                              itemCount: values.length,
+                              itemBuilder: (context, index) {
+                                return getCategoriesList(context,
+                                    snapshot.data!.get('categories')[index]);
+                              }));
+            }
+          }),
     );
   }
-}
-
-getCategories(String email) async {
-  var list;
-  await FirebaseFirestore.instance
-      .collection('usuarios')
-      .doc(email)
-      .get()
-      .then((res) => {list = res.data()!['categories']});
-
-  return list;
-
 }
 
 Widget getCategoriesList(BuildContext context, String categoryName) {
@@ -67,19 +59,22 @@ Widget getCategoriesList(BuildContext context, String categoryName) {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder:
-                (context) =>
-                CategoryDetail(categoryName: categoryName),
+            builder: (context) => CategoryDetail(categoryName: categoryName),
           ));
     },
     child: Container(
       child: Stack(
         alignment: Alignment.bottomLeft,
         children: [
-          Image.asset('assets/categories/${categoryPhoto(categoryName)}', fit: BoxFit.cover, height: 150, width: MediaQuery.of(context).size.width),
+          Image.asset('assets/categories/${categoryPhoto(categoryName)}',
+              fit: BoxFit.cover,
+              height: 150,
+              width: MediaQuery.of(context).size.width),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(categoryName, style: GoogleFonts.bungeeHairline(fontSize: 25, fontWeight: FontWeight.bold)),
+            child: Text(categoryName,
+                style: GoogleFonts.bungeeHairline(
+                    fontSize: 25, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -87,9 +82,8 @@ Widget getCategoriesList(BuildContext context, String categoryName) {
   );
 }
 
-
 categoryPhoto(String categoryName) {
-  switch(categoryName) {
+  switch (categoryName) {
     case 'Música':
       return 'music.jpg';
     case 'Deporte':
@@ -136,6 +130,5 @@ categoryPhoto(String categoryName) {
       return 'travels.jpg';
     case 'Universo':
       return 'universe.jpg';
-
   }
 }

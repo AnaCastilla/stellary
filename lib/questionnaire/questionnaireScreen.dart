@@ -54,6 +54,8 @@ class _QuestionnaireState extends State<Questionnaire> {
       return 'Nickname demasiado corto';
     } else if (value.length > 15) {
       return 'Nickname demasiado largo';
+    } else if(value.length == 0 || value.isEmpty) {
+      return 'Introduce un nickname';
     } else {
       return null;
     }

@@ -93,7 +93,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                           ? CircularProgressIndicator()
                           : snapshot.data!.docs.length == 0
                               ? Container(
-                                  margin: EdgeInsets.only(top: 215),
+                                  margin: EdgeInsets.only(top: 229),
                                   alignment: Alignment.center,
                                   child: Text(':(\n\nAún no has escrito nada',
                                       textAlign: TextAlign.center,

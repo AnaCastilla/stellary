@@ -28,7 +28,7 @@ class CategoryDetail extends StatelessWidget {
                   .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 return !snapshot.hasData
-                    ? CircularProgressIndicator()
+                    ? Center(child: CircularProgressIndicator())
                     : Column(children: [
                         ListView.builder(
                             shrinkWrap: true,
@@ -85,95 +85,8 @@ class CategoryDetail extends StatelessWidget {
                               );
                             })
                       ]);
-                /* return Column(children: [
-                categoryName == 'Música'
-                    ? Container(
-                        child: Column(children: [
-                          TextButton(
-                            onPressed: () => launchURL('https://jenesaispop.com'),
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 50.0),
-                              child: Text('dsfdsfdsfsdf'),
-                            ),
-                          )
-                        ]),
-                      )
-                    : categoryName == 'Animales'?
-                Container(
-                  child: Column(children: [
-                    TextButton(
-                      onPressed: () => launchURL('https://www.rollingstone.com'),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 50.0),
-                        child: Text('holaholaholhola'),
-                      ),
-                    )
-                  ]),
-                ): Container()
-              ]);*/
               })),
     );
-  }
-}
-
-getNewsFromCategory(String categoryName) async {
-  switch (categoryName) {
-    case 'Música':
-      return Container(
-        child: Column(children: [
-          TextButton(
-            onPressed: () => launchURL('https://jenesaispop.com'),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 50.0),
-              child: Text('dsfdsfdsfsdf'),
-            ),
-          )
-        ]),
-      );
-    case 'Deportes':
-      return 'sports.jpg';
-    case 'Actividades al aire libre':
-      return 'activities.jpg';
-    case 'Tecnología':
-      return 'tech.jpg';
-    case 'E-Sports y gaming':
-      return 'esports.jpg';
-    case 'Actualidad':
-      return 'actuality.jpg';
-    case 'Política':
-      return 'politics.jpg';
-    case 'Cine':
-      return 'cinema2.jpg';
-    case 'Alimentación':
-      return 'alimentacion.jpg';
-    case 'Fitness':
-      return 'fitness.jpg';
-    case 'Ciencia':
-      return 'science.jpg';
-    case 'Salud':
-      return 'health.jpg';
-    case 'Moda y belleza':
-      return 'fashionbeauty.jpg';
-    case 'Eventos':
-      return 'events.jpg';
-    case 'Animales':
-      return 'animals.jpg';
-    case 'Arte y cultura':
-      return 'artculture.jpg';
-    case 'Libros y literatura':
-      return 'books.jpg';
-    case 'Astrología':
-      return 'astrology.jpg';
-    case 'Anime y manga':
-      return 'animemanga.jpg';
-    case 'Profesiones':
-      return 'professions.jpg';
-    case 'Programación':
-      return 'programming.jpg';
-    case 'Viajes':
-      return 'travels.jpg';
-    case 'Universo':
-      return 'universe.jpg';
   }
 }
 
