@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 
 class WriteDiaryPage extends StatefulWidget {
   final String date;
@@ -72,7 +73,7 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(2010),
-        lastDate: DateTime(2025),
+        lastDate: DateTime(2050),
 
       );
       if (selected != null && selected != selectedDate)
@@ -92,7 +93,7 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [HexColor("#000000"), HexColor("#200A37")])),
+                colors: [HexColor("#000000"), HexColor("#341654")])),
         child: SingleChildScrollView(
           child: Center(
               child: Column(
@@ -108,7 +109,6 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
                               print('CHANGE DATE $changeDate');
                               _selectDate(context);
                               print(date);
-
                             });
                           },
                           style: ElevatedButton.styleFrom(
@@ -250,6 +250,7 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
                                 moodSelected = 'Horrible';
                               });
                               print('llorando');
+                              print('FECHA WIDGET: ${widget.date} //// FECHA AHORA: ${date}');
                             },
                           ),
                         )
@@ -262,7 +263,7 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
                           ? Text("")
                           : Text(
                         moodSelected,
-                        style: GoogleFonts.novaFlat(fontSize: 40),
+                        style: GoogleFonts.lato(fontSize: 40),
                       ),
                     ),
                   ),
@@ -362,11 +363,11 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
                           padding: EdgeInsets.fromLTRB(60, 20, 60, 20),
                           shape: RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0)),
-                          primary: Colors.deepPurple[800],
+                          primary: Colors.purple.shade900,
                           onPrimary: Colors.white,
                         ),
                         onPressed: () async {
-                          createDiaryPageCollection(
+                          changeDate == false? createDiaryPageCollection(
                               widget.user.uid,
                               widget.user.email!,
                               widget.date,
@@ -374,6 +375,21 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
                               widget.weekDay,
                               widget.month,
                               widget.year,
+                              selectedDate,
+                              moodSelected,
+                              moodImagePath,
+                              titleController.text,
+                              contentController.text,
+                              score) :
+                          createDiaryPageCollection(
+                              widget.user.uid,
+                              widget.user.email!,
+                              date,
+                              selectedDate.day,
+                              selectedDate.weekday,
+                              selectedDate.month,
+                              selectedDate.year,
+                              selectedDate,
                               moodSelected,
                               moodImagePath,
                               titleController.text,
@@ -398,28 +414,25 @@ Future<void> createDiaryPageCollection(
     String email,
     String date,
     int day,
-    int weekDay,
+    int weekday,
     int month,
     int year,
+    DateTime selectedDate,
     String moodString,
     String mood,
     String title,
     String content,
     int score) async {
-  int hour = DateTime.now().hour;
-  int minute = DateTime.now().minute;
-  int sec = DateTime.now().second;
-
-  String hourString = '$hour:$minute:$sec';
+  DateFormat formatter = new DateFormat("yyyy-MM-dd HH:mm:ss");
 
   CollectionReference diary = FirebaseFirestore.instance.collection('diary');
   diary.doc(email).collection(uid).doc().set({
     "author": email,
-    "hour": hourString,
+    "hour": formatter.format(selectedDate),
     "date": date,
     "moodString": moodString,
     "mood": mood,
-    "weekday": weekDay,
+    "weekday": weekday,
     "day": day,
     "month": month,
     "year": year,

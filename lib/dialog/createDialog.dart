@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:diaryly/login/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -50,7 +50,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 HexColor("#000000"),
                 HexColor("#000000"),
                 HexColor("#000000"),
-                HexColor("#200A37")
+                HexColor("#341654")
               ])),
       child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -131,7 +131,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                                   borderRadius:
                                                   new BorderRadius.circular(
                                                       10.0)),
-                                              primary: Colors.deepPurple[800],
+                                              primary: Colors.purple.shade900,
                                               onPrimary: Colors.white,
                                             ),
                                             onPressed: () async {

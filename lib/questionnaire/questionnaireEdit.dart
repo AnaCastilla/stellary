@@ -112,7 +112,7 @@ class _QuestionnaireEditState extends State<QuestionnaireEdit> {
                               shape: RoundedRectangleBorder(
                                   borderRadius:
                                       new BorderRadius.circular(10.0)),
-                              primary: Colors.deepPurple[800],
+                              primary: Colors.purple.shade900,
                               onPrimary: Colors.white,
                             ),
                             onPressed: () async {

@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       } else {
                         return CircleAvatar(
-                            radius: 80,
+                            radius: 90,
                             backgroundColor: Colors.transparent,
                             child: ClipOval(
                               child: SizedBox(
@@ -67,30 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.only(top: 10.0, bottom: 5),
                     child: Text((snapshot.data.toString() == "")
                         ? widget.user.email!
-                        : snapshot.data.toString(), style: GoogleFonts.theGirlNextDoor(fontSize: 35, fontWeight: FontWeight.bold),),
-                  ),
-                Container(
-                    height: MediaQuery.of(context).size.height / 1.9,
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(
-                        left: 30, right: 30, bottom: 40),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 80.0),
-                    child: Column(
-                        children: [
-                          Text("BUILDING...", style: GoogleFonts.bungeeShade(fontSize: 40)),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Icon(Icons.tag_faces_rounded, size: 50,),
-                          )
-                        ],
-                      ),
-                    ),
+                        : snapshot.data.toString(), style: GoogleFonts.poiretOne(fontSize: 35, fontWeight: FontWeight.bold),),
                   ),
                 ],
               )

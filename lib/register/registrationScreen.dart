@@ -18,7 +18,6 @@ class _RegistrationState extends State<Registration> {
   CreateDialog dialog = CreateDialog();
   final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
   late TextEditingController email, password, confirmPassword;
-  bool seePassword = true;
 
   @override
   initState() {
@@ -65,7 +64,7 @@ class _RegistrationState extends State<Registration> {
                   HexColor("#000000"),
                   HexColor("#000000"),
                   HexColor("#000000"),
-                  HexColor("#200A37")
+                  HexColor("#341654")
                 ])),
       child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -204,7 +203,7 @@ class _RegistrationState extends State<Registration> {
                                               borderRadius:
                                                   new BorderRadius.circular(
                                                       10.0)),
-                                          primary: Colors.deepPurple[800],
+                                          primary: Colors.purple.shade900,
                                           onPrimary: Colors.white,
                                         ),
                                         onPressed: () async {

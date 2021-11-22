@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 
 class ChatScreen extends StatefulWidget {
   final User user;
@@ -16,24 +17,32 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  @override
-  Set users = Set();
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController();
 
-  Future<void> callback() async {
+  Future<void> addNewMessage() async {
+    String minute = DateTime.now().minute.toString();
+    var minuteLength = minute.length;
+    var minuteString;
+    if(minuteLength < 2) {
+      minuteString = '0'+minute;
+    } else {
+      minuteString = minute;
+    }
+
     if (messageController.text.length > 0) {
       await _fireStore
           .collection('chats')
           .doc(widget.categoryName)
           .collection('chat')
           .add({
-        'hour': '${DateTime.now().hour}:${DateTime.now().minute}',
+        'hour': '${DateTime.now().hour}:$minuteString',
         'text': messageController.text,
         'from': widget.user.email,
-        'date': DateTime.now().toIso8601String().toString()
+        'date': DateTime.now().toIso8601String().toString(),
+        'dateString': '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'
       });
       messageController.clear();
       scrollController.animateTo(scrollController.position.maxScrollExtent,
@@ -53,10 +62,14 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         body: Container(
           decoration: BoxDecoration(
+            image: DecorationImage(
+                colorFilter: new ColorFilter.mode(Colors.transparent.withOpacity(0.1), BlendMode.dstIn),
+              image: AssetImage('assets/icon2.png')
+            ),
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [HexColor("#000000"), HexColor("#200A37")])),
+                  colors: [HexColor("#000000"), HexColor("#341654")])),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -66,7 +79,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     .collection("chats")
                     .doc(widget.categoryName)
                     .collection('chat')
-                    .orderBy('date')
+                    .orderBy('date', descending: true)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -80,8 +93,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     );
                   } else {
                     List<Widget> messages = docs.map((doc) {
-                      users.add(doc.get('from'));
                       return Message(
+                        date: doc.get('dateString'),
                         hour: doc.get('hour'),
                         from: doc.get('from'),
                         text: doc.get('text'),
@@ -89,8 +102,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       );
                     }).toList();
                     return ListView(
+                      reverse: true,
                       controller: scrollController,
-                      children: <Widget>[...messages],
+                      children: <Widget>[
+                        ...messages],
                     );
                   }
                 },
@@ -110,7 +125,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               borderRadius: BorderRadius.circular(40))),
                       controller: messageController,
                     )),
-                    SendButton(callback: callback)
+                    SendButton(callback: addNewMessage)
                   ],
                 ),
               )
@@ -135,7 +150,7 @@ class SendButton extends StatelessWidget {
         margin: EdgeInsets.only(left: 10.0),
         child: IconButton(
           icon: Icon(Icons.send),
-          color: Colors.white70,
+          color: Colors.white,
           onPressed: callback,
           iconSize: 30,
         ));
@@ -143,11 +158,11 @@ class SendButton extends StatelessWidget {
 }
 
 class Message extends StatelessWidget {
-  final String from, text, hour;
+  final String from, text, hour, date;
   final bool me;
 
   const Message(
-      {Key? key, required this.from, required this.text, required this.me, required this.hour})
+      {Key? key, required this.from, required this.text, required this.me, required this.hour, required this.date})
       : super(key: key);
 
   @override
@@ -169,7 +184,7 @@ class Message extends StatelessWidget {
                         me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(left:12, right: 12),
+                        padding: const EdgeInsets.only(left:12, right: 15),
                         child: Container(
                           child: Text(snapshot.data!.get('nickname')),
                         ),
@@ -178,36 +193,33 @@ class Message extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 5),
                         child: Container(
                               margin: EdgeInsets.only(
-                                  top: 7.0, left: 10.0, right: 10.0, bottom: 10),
+                                  top: 7.0, left: 10.0, right: 10.0),
                               child: Stack(
                                 alignment: AlignmentDirectional.bottomEnd,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(0,0,0,8.0),
-                                    child: Material(
-                                      color: me ? Colors.deepPurple.shade200.withOpacity(0.6) : Colors.deepPurple[400]!.withOpacity(0.6),
-                                      textStyle: TextStyle(color: Colors.white70),
-                                      borderRadius: BorderRadius.circular(10),
-                                      elevation: 6.0,
-                                      child: ConstrainedBox(
-                                        constraints: BoxConstraints(
-                                            minWidth: 60,
-                                            minHeight: 40,
-                                        maxWidth: 300),
-                                       // padding: EdgeInsets.symmetric(
-                                            //vertical: 13, horizontal: 15.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            text[0].toUpperCase() + text.substring(1),
-                                            textAlign: TextAlign.start,
-                                          ),
+                                  Material(
+                                    color: me ? Colors.deepPurple.shade200.withOpacity(0.6) : Colors.deepPurple[400]!.withOpacity(0.6),
+                                    textStyle: TextStyle(color: Colors.white70),
+                                    borderRadius: BorderRadius.circular(10),
+                                    elevation: 6.0,
+                                    child: ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                          minWidth: 60,
+                                          minHeight: 40,
+                                      maxWidth: 300),
+                                     // padding: EdgeInsets.symmetric(
+                                          //vertical: 13, horizontal: 15.0),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          text[0].toUpperCase() + text.substring(1),
+                                          textAlign: TextAlign.start,
                                         ),
                                       ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 10, 6, 8),
+                                    padding: const EdgeInsets.fromLTRB(0, 10, 6, 0),
                                     child: Text(hour, style: TextStyle(color: Colors.white70, fontSize: 10), textAlign: TextAlign.end,),
                                   )
                                 ],
@@ -215,6 +227,10 @@ class Message extends StatelessWidget {
                             ),
 
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12, top: 5, right: 15, bottom: 8),
+                        child: Text(date, style: TextStyle(color: Colors.white.withOpacity(0.2), fontSize: 10),),
+                      )
 
                     ],
                   );

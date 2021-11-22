@@ -68,7 +68,7 @@ class _LoginState extends State<Login> {
               HexColor("#000000"),
               HexColor("#000000"),
               HexColor("#000000"),
-              HexColor("#200A37")
+              HexColor("#341654")
             ])),
         child: WillPopScope(
           onWillPop: _onWillPopScope,
@@ -237,7 +237,7 @@ class _LoginState extends State<Login> {
                                                 borderRadius:
                                                     new BorderRadius.circular(
                                                         10.0)),
-                                            primary: Colors.deepPurple[800],
+                                            primary: Colors.purple.shade900,
                                             onPrimary: Colors.white,
                                           ),
                                           onPressed: () async {

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryly/home/diary/page/EditDiaryPage.dart';
 import 'package:diaryly/home/diary/page/WritePageDiary.dart';
@@ -24,13 +22,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
-  final String defaultLocale = Platform.localeName;
-
-  @override
-  void initState() {
-    super.initState();
-    //initializeDateFormatting();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +30,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
     return Consumer<DiaryPage>(builder: (context, prov, child) {
       return Scaffold(
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.purple.shade900,
           child: Icon(Icons.add_outlined),
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
@@ -81,9 +73,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       .collection('diary')
                       .doc(widget.user.email!)
                       .collection(widget.user.uid)
-                      //.orderBy('hour', descending: true)
-                      // .orderBy('hour', descending: true)
-                      .orderBy('day', descending: true)
+                      .orderBy('hour', descending: true)
                       .snapshots(),
                   builder: (context,
                       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
@@ -95,23 +85,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
                               ? Container(
                                   margin: EdgeInsets.only(top: 229),
                                   alignment: Alignment.center,
-                                  child: Text(':(\n\nAún no has escrito nada',
+                                  child: Text(':(\n\nAún no hay registros',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.varelaRound(
                                           fontSize: 27,
                                           color:
                                               Colors.white.withOpacity(0.3))))
                               : Column(children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 22.0),
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          selectedDay.year.toString(),
-                                          style: GoogleFonts.varelaRound(
-                                              fontSize: 20),
-                                        )),
-                                  ),
                                   ListView.builder(
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
@@ -230,7 +210,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                         Column(
                                                           children: [
                                                             Padding(
-                                                              padding: const EdgeInsets.only(left: 10.0, top: 25),
+                                                              padding: const EdgeInsets.only(left: 10.0, top: 18),
                                                               child: Text(diaryData.get('day').toString(), style: GoogleFonts.varelaRound(fontSize: 25),
                                                               ),
                                                             ),
@@ -246,19 +226,33 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                                         fontSize:
                                                                             13),
                                                               ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 18, top: 5),
+                                                              child: Text(diaryData.get('year').toString(), style: GoogleFonts.varelaRound(fontSize: 10),
+                                                              ),
                                                             )
+
                                                           ],
                                                         ),
                                                         Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                       .only(
-                                                                  top: 30.0),
+                                                                  top: 22.0),
                                                           child: Align(
                                                               alignment:
                                                                   Alignment
                                                                       .topLeft,
-                                                              child: Text(
+                                                              child: diaryData.get('month').toString().length < 2?
+                                                              Text(
+                                                                '/0${diaryData.get('month')}',
+                                                                style: GoogleFonts
+                                                                    .varelaRound(
+                                                                    fontSize:
+                                                                    8),
+                                                              ) :
+                                                              Text(
                                                                 '/${diaryData.get('month')}',
                                                                 style: GoogleFonts
                                                                     .varelaRound(
@@ -305,7 +299,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                                               19,
                                                                           fontWeight:
                                                                               FontWeight.bold)),
-                                                              diaryData
+                                                                       diaryData
                                                                           .get(
                                                                               'content')
                                                                           .toString()
@@ -356,7 +350,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       } else {
                         return Column(children: [
                           TableCalendar(
-                            //locale: defaultLocale,
                             focusedDay: selectedDay,
                             firstDay: DateTime(1990),
                             lastDay: DateTime(2050),
@@ -471,10 +464,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                                       fontSize:
                                                                           15))),
                                                     ),
+                                                    //la fecha, al no tener ceros si el día o el mes es menor de 10,
+                                                    // le añado más padding para que quede alineado con los que sí son >10
+                                                    diaryData.get('date').toString().length < 9?
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              left: 105.0),
+                                                              left: 125.0),
                                                       child: Container(
                                                           child: Text(
                                                               'Puntuación: ',
@@ -482,6 +478,17 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                                   .varelaRound(
                                                                       fontSize:
                                                                           15))),
+                                                    ) : Padding(
+                                                      padding:
+                                                      const EdgeInsets.only(
+                                                          left: 105.0),
+                                                      child: Container(
+                                                          child: Text(
+                                                              'Puntuación: ',
+                                                              style: GoogleFonts
+                                                                  .varelaRound(
+                                                                  fontSize:
+                                                                  15))),
                                                     ),
                                                     Container(
                                                         child: Text(

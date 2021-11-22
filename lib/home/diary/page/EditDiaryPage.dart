@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 
 class EditDiaryPage extends StatefulWidget {
   final String date;
@@ -88,7 +89,7 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(2010),
-        lastDate: DateTime(2025),
+        lastDate: DateTime(2050),
 
       );
       if (selected != null && selected != selectedDate)
@@ -105,7 +106,7 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [HexColor("#000000"), HexColor("#200A37")])),
+                colors: [HexColor("#000000"), HexColor("#341654")])),
         child: SingleChildScrollView(
           child: Center(
               child: Column(
@@ -274,10 +275,10 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
                       child: Container(
                         child: (moodSelected == "")
                             ? Text(widget.mood.toString(),
-                                style: GoogleFonts.novaFlat(fontSize: 40))
+                                style: GoogleFonts.lato(fontSize: 40))
                             : Text(
                                 moodSelected,
-                                style: GoogleFonts.novaFlat(fontSize: 40),
+                                style: GoogleFonts.lato(fontSize: 40),
                               ),
                       ),
                     )
@@ -287,7 +288,7 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
                             ? Text("")
                             : Text(
                                 moodSelected,
-                                style: GoogleFonts.novaFlat(fontSize: 40),
+                                style: GoogleFonts.lato(fontSize: 40),
                               ),
                       ),
                     ),
@@ -387,10 +388,11 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
                       padding: EdgeInsets.fromLTRB(60, 20, 60, 20),
                       shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(10.0)),
-                      primary: Colors.deepPurple[800],
+                      primary: Colors.purple.shade900,
                       onPrimary: Colors.white,
                     ),
                     onPressed: () async {
+                      DateFormat formatter = new DateFormat("yyyy-MM-dd HH:mm:ss");
                       CollectionReference collection = FirebaseFirestore
                           .instance
                           .collection('diary')
@@ -404,6 +406,7 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
                         doc.reference.update({'moodString': moodSelected},);
                         doc.reference.update({'mood': moodImagePath},);
                         doc.reference.update({'date': date},);
+                        doc.reference.update({'hour': formatter.format(selectedDate)});
                         doc.reference.update({'day': selectedDate.day},);
                         doc.reference.update({'month': selectedDate.month},);
                         doc.reference.update({'year': selectedDate.year},);

@@ -29,7 +29,7 @@ class _SplashState extends State<SplashToLogin> {
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [HexColor("#000000"), HexColor("#200A37")])),
+              colors: [HexColor("#000000"), HexColor("#341654")])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
           body: Center(
@@ -40,7 +40,7 @@ class _SplashState extends State<SplashToLogin> {
           Container(
             height: 120,
             width: 120,
-            child: Image.asset('assets/icon.png'),
+            child: Image.asset('assets/icon2.png'),
           ),
         ]),
       )),

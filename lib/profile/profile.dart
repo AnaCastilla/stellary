@@ -135,7 +135,7 @@ class _ProfileState extends State<Profile> {
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [HexColor("#000000"), HexColor("#200A37")])),
+                colors: [HexColor("#000000"), HexColor("#341654")])),
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
@@ -309,7 +309,8 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     margin: EdgeInsets.only(left: 20, right: 20),
                     child: TextButton(
-                      child: Text("Cambiar intereses"),
+                      style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple.shade50)),
+                      child: Text("Cambiar intereses", style: TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline)),
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -341,7 +342,7 @@ class _ProfileState extends State<Profile> {
                         padding: EdgeInsets.fromLTRB(60, 20, 60, 20),
                         shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(10.0)),
-                        primary: Colors.deepPurple[800],
+                        primary: Colors.purple.shade900,
                         onPrimary: Colors.white,
                       ),
                       onPressed: () {

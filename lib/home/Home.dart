@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [HexColor("#000000"), HexColor("#200A37")])),
+                colors: [HexColor("#000000"), HexColor("#341654")])),
         child: WillPopScope(
             onWillPop: _onWillPopScope,
             child: Scaffold(
@@ -62,13 +62,14 @@ class _HomeState extends State<Home> {
                       decoration: BoxDecoration(color: Colors.transparent),
                       accountName: Text("STELLARY",
                           style: GoogleFonts.poiretOne(
+                              fontWeight: FontWeight.bold,
                               fontSize: 30,
                               color: Colors.white,
                               letterSpacing: 8)),
                       accountEmail: Text(""),
                       currentAccountPicture: CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          child: Image.asset('assets/icon.png')),
+                          child: Image.asset('assets/icon2.png')),
                     ),
                   ),
                   ListTile(
@@ -106,8 +107,8 @@ class _HomeState extends State<Home> {
                     title: Text("Cerrar sesión"),
                     leading: Icon(Icons.logout, color: Colors.white),
                     onTap: ()  {
-                      //signOut();
-                      //Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
+                      signOut();
+                      Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
                       Fluttertoast.showToast(msg: 'Sesión cerrada');
                       Navigator.push(
                           context,
