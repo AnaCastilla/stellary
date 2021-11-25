@@ -66,8 +66,6 @@ class _LoginState extends State<Login> {
               HexColor("#000000"),
               HexColor("#000000"),
               HexColor("#000000"),
-              HexColor("#000000"),
-              HexColor("#000000"),
               HexColor("#341654")
             ])),
         child: WillPopScope(
@@ -77,12 +75,9 @@ class _LoginState extends State<Login> {
               body: SingleChildScrollView(
                 child: Center(
                     child: Column(children: [
-                  Image.asset(
-                    "assets/starfall1.gif",
-                  ),
                   Container(
                       alignment: Alignment.topLeft,
-                      margin: EdgeInsets.only(left: 30, top: 78),
+                      margin: EdgeInsets.only(left: 30, top: 100),
                       child: Row(
                         children: [
                           Text("Bienvenido a",
@@ -291,7 +286,7 @@ class _LoginState extends State<Login> {
                     ),
                   ]),
                   Container(
-                      margin: EdgeInsets.only(bottom: 10),
+                      margin: EdgeInsets.only(top: 45),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

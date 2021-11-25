@@ -2,6 +2,7 @@ import 'package:diaryly/home/HomeOrQuestionnaire.dart';
 import 'package:diaryly/login/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashToLogin extends StatefulWidget {
   const SplashToLogin({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class SplashToLogin extends StatefulWidget {
 }
 
 class _SplashState extends State<SplashToLogin> {
+
   void initState() {
     super.initState();
     _navigateToLogin();

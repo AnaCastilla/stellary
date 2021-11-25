@@ -275,10 +275,10 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
                       child: Container(
                         child: (moodSelected == "")
                             ? Text(widget.mood.toString(),
-                                style: GoogleFonts.lato(fontSize: 40))
+                                style: GoogleFonts.varelaRound(fontSize: 20))
                             : Text(
                                 moodSelected,
-                                style: GoogleFonts.lato(fontSize: 40),
+                                style: GoogleFonts.varelaRound(fontSize: 20)
                               ),
                       ),
                     )
@@ -288,7 +288,7 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
                             ? Text("")
                             : Text(
                                 moodSelected,
-                                style: GoogleFonts.lato(fontSize: 40),
+                                style: GoogleFonts.varelaRound(fontSize: 20),
                               ),
                       ),
                     ),
@@ -402,14 +402,16 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
                           .where('hour', isEqualTo: widget.hour)
                           .where('date', isEqualTo: widget.date)
                           .get();
+
                       for (var doc in updatePage.docs) {
                         doc.reference.update({'moodString': moodSelected},);
                         doc.reference.update({'mood': moodImagePath},);
-                        doc.reference.update({'date': date},);
-                        doc.reference.update({'hour': formatter.format(selectedDate)});
-                        doc.reference.update({'day': selectedDate.day},);
-                        doc.reference.update({'month': selectedDate.month},);
-                        doc.reference.update({'year': selectedDate.year},);
+                        doc.reference.update({'date': changeDate == false? widget.date : date},);
+                        doc.reference.update({'hour': changeDate == false? widget.hour : formatter.format(selectedDate)});
+                        doc.reference.update({'day': changeDate == false? widget.day : selectedDate.day},);
+                        doc.reference.update({'weekday': changeDate == false? widget.weekDay : selectedDate.weekday},);
+                        doc.reference.update({'month': changeDate == false? widget.month : selectedDate.month},);
+                        doc.reference.update({'year': changeDate == false? widget.year : selectedDate.year},);
                         doc.reference.update({'title': titleController.text});
                         doc.reference.update({'content': contentController.text});
                         doc.reference.update({'score': score});

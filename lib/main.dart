@@ -15,16 +15,9 @@ Future<void> main() async {
     create: (context) => DiaryPage(),
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(secondary: Colors.deepPurple[500]),
-        brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
-        primaryColor: Colors.white,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(secondary: Colors.deepPurple[500]),
-        brightness: Brightness.dark,
-      ),
+      theme: ThemeData(primarySwatch: Colors.teal, brightness: Brightness.light),
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData(brightness: Brightness.dark),
       routes: {
         'home': (context) => HomeOrQuestionnaire(),
         'login': (context) => Login(),

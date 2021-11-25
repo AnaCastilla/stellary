@@ -48,8 +48,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                 HexColor("#000000"),
                 HexColor("#000000"),
                 HexColor("#000000"),
-                HexColor("#000000"),
-                HexColor("#000000"),
                 HexColor("#341654")
               ])),
       child: Scaffold(

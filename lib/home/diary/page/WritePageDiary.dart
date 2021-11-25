@@ -263,7 +263,7 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
                           ? Text("")
                           : Text(
                         moodSelected,
-                        style: GoogleFonts.lato(fontSize: 40),
+                        style: GoogleFonts.varelaRound(fontSize: 20),
                       ),
                     ),
                   ),

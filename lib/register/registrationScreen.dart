@@ -62,8 +62,6 @@ class _RegistrationState extends State<Registration> {
                   HexColor("#000000"),
                   HexColor("#000000"),
                   HexColor("#000000"),
-                  HexColor("#000000"),
-                  HexColor("#000000"),
                   HexColor("#341654")
                 ])),
       child: Scaffold(

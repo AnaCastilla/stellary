@@ -13,7 +13,7 @@ class CreateDialog {
             actions: <Widget>[
               TextButton(
                 child: Text("Cerrar",
-                    style: TextStyle(color: Colors.deepPurple[500])),
+                    style: TextStyle(color: Colors.deepPurple[300])),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -32,7 +32,7 @@ class CreateDialog {
             actions: <Widget>[
               TextButton(
                 child:
-                    Text("Sí", style: TextStyle(color: Colors.deepPurple[500])),
+                    Text("Sí", style: TextStyle(color: Colors.deepPurple[300])),
                 onPressed: () {
                   Navigator.of(context).push(
                       MaterialPageRoute(
@@ -41,7 +41,7 @@ class CreateDialog {
               ),
               TextButton(
                 child:
-                    Text("No", style: TextStyle(color: Colors.deepPurple[500])),
+                    Text("No", style: TextStyle(color: Colors.deepPurple[300])),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -60,14 +60,14 @@ class CreateDialog {
             actions: <Widget>[
               TextButton(
                 child:
-                Text("Sí", style: TextStyle(color: Colors.deepPurple[500])),
+                Text("Sí", style: TextStyle(color: Colors.deepPurple[300])),
                 onPressed: () {
                   SystemNavigator.pop();
                 },
               ),
               TextButton(
                 child:
-                Text("No", style: TextStyle(color: Colors.deepPurple[500])),
+                Text("No", style: TextStyle(color: Colors.deepPurple[300])),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

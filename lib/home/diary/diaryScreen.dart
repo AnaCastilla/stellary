@@ -30,8 +30,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
     return Consumer<DiaryPage>(builder: (context, prov, child) {
       return Scaffold(
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.purple.shade900,
-          child: Icon(Icons.add_outlined),
+          backgroundColor: Colors.deepPurple.shade400,
+          child: Icon(Icons.add_outlined, color: Colors.white,),
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => WriteDiaryPage(
@@ -401,8 +401,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                   height: 260,
                                   child: ListView.builder(
                                       physics: const BouncingScrollPhysics(
-                                          parent:
-                                              AlwaysScrollableScrollPhysics()),
+                                          parent: AlwaysScrollableScrollPhysics()),
                                       shrinkWrap: true,
                                       itemCount: snapshot.data!.docs.length,
                                       itemBuilder: (context, index) {
@@ -410,7 +409,10 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                             snapshot.data!.docs[index];
 
                                         return (diaryData.get('mood') == "")
-                                            ? Container()
+                                            ? Container(child: Padding(
+                                              padding: const EdgeInsets.only(top: 120.0),
+                                              child: Center(child: Text('No hay nada que mostrar', style: GoogleFonts.varelaRound(fontSize: 20, color: Colors.white.withOpacity(0.2)))),
+                                            ))
                                             : Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
