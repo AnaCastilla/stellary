@@ -122,7 +122,7 @@ class _QuestionnaireState extends State<Questionnaire> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("¿Quieres ponerte un nickname?",
+                                Text("¡Ponte un nickname!",
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.badScript(
                                         fontSize: 20,

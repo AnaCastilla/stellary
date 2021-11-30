@@ -53,17 +53,17 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  HexColor("#000000"),
-                  HexColor("#000000"),
-                  HexColor("#000000"),
-                  HexColor("#000000"),
-                  HexColor("#341654")
-                ])),
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+            HexColor("#000000"),
+            HexColor("#000000"),
+            HexColor("#000000"),
+            HexColor("#000000"),
+            HexColor("#341654")
+          ])),
       child: Scaffold(
           backgroundColor: Colors.transparent,
           body: SingleChildScrollView(
@@ -192,11 +192,12 @@ class _RegistrationState extends State<Registration> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.fromLTRB(10, 30, 10, 10),
+                                    padding:
+                                        EdgeInsets.fromLTRB(10, 30, 10, 10),
                                     child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          padding:
-                                              EdgeInsets.fromLTRB(60, 20, 60, 20),
+                                          padding: EdgeInsets.fromLTRB(
+                                              60, 20, 60, 20),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   new BorderRadius.circular(
@@ -205,59 +206,38 @@ class _RegistrationState extends State<Registration> {
                                           onPrimary: Colors.white,
                                         ),
                                         onPressed: () async {
-                                          if (_registerFormKey.currentState!.validate()) {
+                                          if (_registerFormKey.currentState!
+                                              .validate()) {
                                             if (password.text ==
                                                 confirmPassword.text) {
-                                              //await auth.newUser(email.text, password.text);
-                                              FirebaseAuth.instance
-                                                  .createUserWithEmailAndPassword(
-                                                      email: email.text,
-                                                      password: password.text)
-                                                  .then(
-                                                      (currentUser) =>
-                                                          {
-                                                            FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                "usuarios")
-                                                                .add({
-                                                              "e-mail": email,
-                                                              "numberOfLogs": 0,
-                                                              "registradoDia": DateTime
-                                                                  .now()
-                                                                  .day,
-                                                              "registradoMes": DateTime
-                                                                  .now()
-                                                                  .month,
-                                                              "registradoYear": DateTime
-                                                                  .now()
-                                                                  .year,
-                                                            })
-                                                          }).catchError((err) {
-                                                            print(err);
-                                                            if (err ==
-                                                                'email-already-in-use') {
-                                                              dialog.createDialog("Este e-mail ya está en uso", context);
-                                                            } else {
-                                                              //_registerFormKey.currentState.save();
-                                                              Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            Login(),
-                                                                  ));
-                                                              print(
-                                                                  'Usuario registrado');
-                                                              Fluttertoast.showToast(
-                                                                  msg:
-                                                                      'Usuario registrado');
-                                                            }
-                                                          });
-                                              createUserInCollection(email.text);
+                                              try {
+                                                await FirebaseAuth.instance
+                                                    .createUserWithEmailAndPassword(
+                                                        email: email.text,
+                                                        password: password.text);
+                                                createUserInCollection(email.text);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Login(),
+                                                    ));
+                                                print('Usuario registrado');
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                    'Usuario registrado');
 
+                                              } on FirebaseAuthException catch (e) {
+                                                if (e.code.contains('email-already-in-use')) {
+                                                  dialog.createDialog(
+                                                      "Este e-mail ya está en uso",
+                                                      context);
+                                                }
+                                              }
                                             } else {
-                                              dialog.createDialog("Las contraseñas no coinciden", context);
+                                              dialog.createDialog(
+                                                  "Las contraseñas no coinciden",
+                                                  context);
                                             }
                                           }
                                         },
@@ -306,7 +286,8 @@ Future<void> createUserInCollection(String email) async {
     "profilePic": "",
     "registradoDia": DateTime.now().day,
     "registradoMes": DateTime.now().month,
-    "registradoYear": DateTime.now().year,});
+    "registradoYear": DateTime.now().year,
+  });
 
   return;
 }

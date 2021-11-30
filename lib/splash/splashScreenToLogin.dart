@@ -2,7 +2,6 @@ import 'package:diaryly/home/HomeOrQuestionnaire.dart';
 import 'package:diaryly/login/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashToLogin extends StatefulWidget {
   const SplashToLogin({Key? key}) : super(key: key);

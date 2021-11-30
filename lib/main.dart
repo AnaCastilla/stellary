@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'login/loginScreen.dart';
-import 'models/DatabaseService.dart';
 import 'models/DiaryPage.dart';
+import 'notifications/notification_api.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationApi.init(initScheduled: true);
   await Firebase.initializeApp();
   initializeDateFormatting('es_ES').then((_) =>runApp(ChangeNotifierProvider(
     create: (context) => DiaryPage(),

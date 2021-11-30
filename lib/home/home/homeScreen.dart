@@ -17,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int showTodayRegisters = 0;
 
   @override
   void initState() {
@@ -29,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int showTodayRegisters = 0;
     String date =
         "${DateTime.now().day.toString()}/${DateTime.now().month.toString()}/${DateTime.now().year.toString()}";
 
@@ -120,8 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Stack(
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 20.0),
+                                              padding: const EdgeInsets.only(top: 20.0),
                                               child: Center(
                                                 child: Container(
                                                   width: 130,
@@ -136,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             Center(
                                               child: Padding(
-                                                padding: const EdgeInsets.only(top: 48),
+                                                padding: const EdgeInsets.only(top: 45),
                                                 child: SizedBox(
                                                   width: 100,
                                                     height: 65,
@@ -219,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ? Column(children: [
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 55.0),
+                                                  top: 70.0),
                                               child: Container(
                                                   alignment: Alignment.center,
                                                   child: Text(
@@ -252,17 +251,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ])
                                         : ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount: snapshot.data!.docs.length,
+                                            itemCount: showTodayRegisters!=0? snapshot.data!.docs.length : 1,
                                             itemBuilder: (context, index) {
                                               DocumentSnapshot diaryData = snapshot.data!.docs[index];
                                               if(date == diaryData.get('date')) {
                                                 showTodayRegisters += 1;
+                                                print('TODAY REGISTERS: ' + showTodayRegisters.toString());
                                               }
-                                              return (showTodayRegisters == 0 && index == 1)?
+                                              return (showTodayRegisters == 0)?
                                               Column(children: [
                                                 Padding(
                                                   padding: const EdgeInsets.only(
-                                                      top: 55.0),
+                                                      top: 70.0),
                                                   child: Container(
                                                       alignment: Alignment.center,
                                                       child: Text(
@@ -333,7 +333,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           Padding(
                                                             padding: const EdgeInsets.only(top: 8.0, right: 15),
                                                             child: Container(
-                                                              padding: EdgeInsets.all(8),
+                                                              padding: EdgeInsets.fromLTRB(4,8,8,8),
                                                               decoration: BoxDecoration(
                                                                 color: Colors.purple.shade50.withOpacity(0.3),
                                                                 borderRadius: BorderRadius.circular(15)
@@ -345,6 +345,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             padding: const EdgeInsets.only(top: 8.0, right: 15),
                                                             child: Container(
                                                               child: (DateTime.now().day == diaryData.get('day') && DateTime.now().month == diaryData.get('month') && DateTime.now().year == diaryData.get('year'))?
+                                                              diaryData.get('title').toString() == '' ? Text('Sin título', style: GoogleFonts.khand(fontSize: 25, color: Colors.white.withOpacity(0.3))) :
                                                               diaryData.get('title').toString().length > 20 ? Text(diaryData.get('title').toString().substring(0, 20) + '...', style: GoogleFonts.khand(fontSize: 25),) :
                                                               Text(diaryData.get('title'), style: GoogleFonts.khand(fontSize: 25)) : Text('', style: TextStyle(fontSize:0)),
                                                             ),

@@ -350,6 +350,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       } else {
                         return Column(children: [
                           TableCalendar(
+                            locale: 'es_ES',
                             focusedDay: selectedDay,
                             firstDay: DateTime(1990),
                             lastDay: DateTime(2050),

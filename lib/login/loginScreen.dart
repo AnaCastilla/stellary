@@ -236,9 +236,10 @@ class _LoginState extends State<Login> {
                                             onPrimary: Colors.white,
                                           ),
                                           onPressed: () async {
-                                            incrementLogs(email.text);
+
                                             if (_loginFormKey.currentState!
                                                 .validate()) {
+                                              incrementLogs(email.text);
                                               FirebaseAuth.instance
                                                   .signInWithEmailAndPassword(
                                                       email: email.text,

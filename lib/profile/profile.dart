@@ -48,7 +48,7 @@ class _ProfileState extends State<Profile> {
       final image =
           await ImagePicker.platform.pickImage(source: ImageSource.gallery);
 
-      setState(() {
+      this.setState(() {
         print(image!.path);
         file = File(image.path);
       });
@@ -105,6 +105,7 @@ class _ProfileState extends State<Profile> {
     return nickname;
   }
 
+  //Obtener la fecha en la que se ha registrado el usuario
   Future getRegisterDate(String email) async {
     var day, month, year, date;
     await FirebaseFirestore.instance
@@ -158,14 +159,15 @@ class _ProfileState extends State<Profile> {
                         return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              Stack(
                                 children: [
                                   Align(
                                       alignment: Alignment.center,
                                       child: InkWell(
                                         onTap: () {
                                           getImage();
+                                          setState(() {
+                                          });
                                         },
                                         child: CircleAvatar(
                                             radius: 90,
@@ -175,8 +177,7 @@ class _ProfileState extends State<Profile> {
                                                 width: 160,
                                                 height: 160,
                                                 child: (snapshots.data
-                                                            .toString() !=
-                                                        "")
+                                                            .toString() != "")
                                                     ? (file != null)
                                                         ? Image.file(file!,
                                                             fit: BoxFit.cover)
@@ -192,6 +193,21 @@ class _ProfileState extends State<Profile> {
                                               ),
                                             )),
                                       ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(230,125,0,0),
+                                    child: Container(
+                                      width: 45,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.purple.shade900.withOpacity(0.97)
+
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left:5.0),
+                                          child: Image.asset('assets/addimage.png', color: Colors.white,),
+                                        )),
                                   ),
                                 ],
                               ),

@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Settings(),
+                            builder: (context) => Settings(user: widget.user),
                           ));
                     },
                   ),
@@ -110,11 +110,6 @@ class _HomeState extends State<Home> {
                       signOut();
                       Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
                       Fluttertoast.showToast(msg: 'Sesión cerrada');
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Login(),
-                          ));
                     },
                   ),
                 ])),
