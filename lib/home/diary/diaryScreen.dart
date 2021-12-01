@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryly/home/diary/page/EditDiaryPage.dart';
 import 'package:diaryly/home/diary/page/WritePageDiary.dart';
-import 'package:diaryly/models/DiaryPage.dart';
+import 'package:diaryly/provider/MyProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -27,7 +27,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   Widget build(BuildContext context) {
     String date =
         "${selectedDay.day.toString()}/${selectedDay.month.toString()}/${selectedDay.year.toString()}";
-    return Consumer<DiaryPage>(builder: (context, prov, child) {
+    return Consumer<MyProvider>(builder: (context, prov, child) {
       return Scaffold(
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.deepPurple.shade400,
@@ -410,10 +410,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                             snapshot.data!.docs[index];
 
                                         return (diaryData.get('mood') == "")
-                                            ? Container(child: Padding(
-                                              padding: const EdgeInsets.only(top: 120.0),
-                                              child: Center(child: Text('No hay nada que mostrar', style: GoogleFonts.varelaRound(fontSize: 20, color: Colors.white.withOpacity(0.2)))),
-                                            ))
+                                            ? Container()
                                             : Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),

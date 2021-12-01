@@ -28,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int showTodayRegisters = 0;
     String date =
         "${DateTime.now().day.toString()}/${DateTime.now().month.toString()}/${DateTime.now().year.toString()}";
 
@@ -135,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             Center(
                                               child: Padding(
-                                                padding: const EdgeInsets.only(top: 45),
+                                                padding: const EdgeInsets.only(top: 47),
                                                 child: SizedBox(
                                                   width: 100,
                                                     height: 65,
@@ -209,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       left: 25, right: 25, bottom: 50),
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height / 3,
+                                    height: MediaQuery.of(context).size.height /  4,
                                     decoration: BoxDecoration(
                                         color: Colors.deepPurple.shade100
                                             .withOpacity(0.2),
@@ -218,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ? Column(children: [
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 70.0),
+                                                  top: 40.0),
                                               child: Container(
                                                   alignment: Alignment.center,
                                                   child: Text(
@@ -247,53 +246,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   user: widget.user)));
                                                 },
                                                 child: Text(
-                                                    'Pulsa aquí para crear una página'))
+                                                    'Pulsa aquí para crear tu primera página'))
                                           ])
                                         : ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount: showTodayRegisters!=0? snapshot.data!.docs.length : 1,
+                                            itemCount: snapshot.data!.docs.length,
                                             itemBuilder: (context, index) {
                                               DocumentSnapshot diaryData = snapshot.data!.docs[index];
-                                              if(date == diaryData.get('date')) {
-                                                showTodayRegisters += 1;
-                                                print('TODAY REGISTERS: ' + showTodayRegisters.toString());
-                                              }
-                                              return (showTodayRegisters == 0)?
-                                              Column(children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 70.0),
-                                                  child: Container(
-                                                      alignment: Alignment.center,
-                                                      child: Text(
-                                                        ':(\n\nHoy no has escrito nada',
-                                                        textAlign: TextAlign.center,
-                                                        style:
-                                                        GoogleFonts.varelaRound(
-                                                            fontSize: 20,
-                                                            color: Colors
-                                                                .white
-                                                                .withOpacity(
-                                                                0.2)),
-                                                      )),
-                                                ),
-                                                TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context).push(
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  WriteDiaryPage(
-                                                                      date: date,
-                                                                      day: DateTime.now().day,
-                                                                      weekDay: DateTime.now().weekday,
-                                                                      month: DateTime.now().month,
-                                                                      year: DateTime.now().year,
-                                                                      user: widget.user)));
-                                                    },
-                                                    child: Text(
-                                                        'Pulsa aquí para crear una página'))
-                                              ]) :
-                                                GestureDetector(
+
+                                              return GestureDetector(
                                                   onTap: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
@@ -327,7 +288,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     Padding(
                                                       padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
                                                       child:
-                                                      (DateTime.now().day == diaryData.get('day') && DateTime.now().month == diaryData.get('month') && DateTime.now().year == diaryData.get('year'))?
+                                                      (diaryData.get('date') == date)?
                                                       Row(
                                                         children: [
                                                           Padding(
@@ -338,20 +299,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 color: Colors.purple.shade50.withOpacity(0.3),
                                                                 borderRadius: BorderRadius.circular(15)
                                                               ),
-                                                                child: (DateTime.now().day == diaryData.get('day') && DateTime.now().month == diaryData.get('month') && DateTime.now().year == diaryData.get('year'))? Text(diaryData.get('hour').toString().substring(10, 16), style: GoogleFonts.encodeSans(fontSize: 25),) : Text('', style: TextStyle(fontSize:0))
+                                                                child: (diaryData.get('date') == date)? Text(diaryData.get('hour').toString().substring(10, 16), style: GoogleFonts.encodeSans(fontSize: 25),) : Text('', style: TextStyle(fontSize:0))
                                                             ),
                                                           ),
                                                           Padding(
                                                             padding: const EdgeInsets.only(top: 8.0, right: 15),
                                                             child: Container(
-                                                              child: (DateTime.now().day == diaryData.get('day') && DateTime.now().month == diaryData.get('month') && DateTime.now().year == diaryData.get('year'))?
+                                                              child: (diaryData.get('date') == date)?
                                                               diaryData.get('title').toString() == '' ? Text('Sin título', style: GoogleFonts.khand(fontSize: 25, color: Colors.white.withOpacity(0.3))) :
                                                               diaryData.get('title').toString().length > 20 ? Text(diaryData.get('title').toString().substring(0, 20) + '...', style: GoogleFonts.khand(fontSize: 25),) :
                                                               Text(diaryData.get('title'), style: GoogleFonts.khand(fontSize: 25)) : Text('', style: TextStyle(fontSize:0)),
                                                             ),
                                                           ),
                                                         ],
-                                                      ) : Container(),
+                                                      ) : Container()
                                                     ),
                                                   ],
                                               ),
