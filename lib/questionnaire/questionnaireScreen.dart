@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+//PANTALLA DEL CUESTIONARIO QUE APARECE CUANDO INICIAS SESIÓN POR PRIMERA VEZ
 class Questionnaire extends StatefulWidget {
   final User user;
 
@@ -61,6 +62,8 @@ class _QuestionnaireState extends State<Questionnaire> {
     }
   }
 
+  //Cuando se selecciona una categoría, la mete en la lista de las categorías seleccionadas,
+  // y cuando la deselecciona, la elimina
   void _onCategorySelected(bool selected, categoryName) {
     if (selected == true) {
       setState(() {

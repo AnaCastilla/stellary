@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'categoryDetail/categoryDetail.dart';
 
+//PANTALLA DE NOTICIAS, es donde se muestra todas las categorías de interés con una imagen asignada
+//a cada una y puedes hacer click para acceder a su detalle (categoryDetail.dart)
 class NewsScreen extends StatefulWidget {
   final User user;
 
@@ -30,13 +32,30 @@ class _NewsScreenState extends State<NewsScreen> {
             } else {
               values = snapshot.data!.get('categories');
               return values.length == 0
-                  ? Container(
-                      alignment: Alignment.center,
-                      child: Text(':(\n\n No hay categorías para mostrar',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.varelaRound(
-                              fontSize: 27,
-                              color: Colors.white.withOpacity(0.3))))
+                  ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          alignment: Alignment.center,
+                          child: Text(':(\n\n No hay categorías para mostrar',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.varelaRound(
+                                  fontSize: 27,
+                                  color: Colors.white.withOpacity(0.5)))
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 21),
+                        child: Container(
+                            alignment: Alignment.center,
+                            child: Text('Dirígete a tu perfil para cambiar tus intereses y habilitar esta sección',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.varelaRound(
+                                    fontSize: 15,
+                                    color: Colors.white.withOpacity(0.5)))
+                        ),
+                      ),
+                    ],
+                  )
                   : !snapshot.hasData
                       ? Center(child: CircularProgressIndicator())
                       : Container(
@@ -52,6 +71,8 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 }
 
+//Widget que devuelve la lista de las categorías que el usuario tenga,
+//con la imagen representativa y el nombre, y se puede hacer click para acceder con detalle a dicha categoría
 Widget getCategoriesList(BuildContext context, String categoryName) {
   return GestureDetector(
     onTap: () {
@@ -81,6 +102,7 @@ Widget getCategoriesList(BuildContext context, String categoryName) {
   );
 }
 
+//Función que devuelve el nombre de la imagen dependiendo del nombre de cada categoría
 categoryPhoto(String categoryName) {
   switch (categoryName) {
     case 'Música':

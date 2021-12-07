@@ -2,6 +2,7 @@ import 'package:diaryly/login/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+//Clase donde creo todos los tipos de AlertDialogs que uso a lo largo de la app
 class CreateDialog {
   createDialog(String msg, dynamic context) {
     showDialog(

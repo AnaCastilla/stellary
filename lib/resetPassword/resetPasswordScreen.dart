@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+//PANTALLA DE RECUPERAR CONTRASEÑA
 class ResetPassword extends StatefulWidget {
 
   ResetPassword({Key? key}) : super(key: key);

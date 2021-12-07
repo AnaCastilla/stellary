@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryly/categories/categories.dart';
-import 'package:diaryly/dialog/createDialog.dart';
-import 'package:diaryly/home/Home.dart';
 import 'package:diaryly/profile/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
+//CUESTIONARIO EDITABLE, ESTÁ EN LA PANTALLA DE PERFIL HACIENDO CLICK EN "Cambiar intereses"
 class QuestionnaireEdit extends StatefulWidget {
   final User user;
 
@@ -47,6 +47,7 @@ class _QuestionnaireEditState extends State<QuestionnaireEdit> {
     super.initState();
   }
 
+  //Actualiza las nuevas categorías elegidas en la base de datos
   Future<void> updateCategoriesInFirestore(
       String email, List categoriesList, BuildContext context) async {
     CollectionReference user = FirebaseFirestore.instance.collection('usuarios');
@@ -58,6 +59,8 @@ class _QuestionnaireEditState extends State<QuestionnaireEdit> {
     ).then((value) => setState(() {}));
   }
 
+  //Cuando se selecciona una categoría, la mete en la lista de las categorías seleccionadas,
+  // y cuando la deselecciona, la elimina
   void _onCategorySelected(bool selected, categoryName) {
     if (selected == true) {
       setState(() {
@@ -129,17 +132,6 @@ class _QuestionnaireEditState extends State<QuestionnaireEdit> {
               )
             ]))));
   }
-}
-
-Future<void> getCategories(String email) async {
-  var list;
-  await FirebaseFirestore.instance
-      .collection('usuarios')
-      .doc(email)
-      .get()
-      .then((res) => {list = res.data()!['categories'].toString()});
-
-  return list;
 }
 
 

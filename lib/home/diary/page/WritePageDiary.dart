@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 
+//PANTALLA PARA CREAR UNA PÁGINA DE DIARIO, A LA QUE SE ACCEDE HACIENDOLE CLICK AL FLOATINGBUTTON DE LA
+//PANTALLA DE DIARIO
 class WriteDiaryPage extends StatefulWidget {
   final String date;
   final User user;
@@ -26,7 +28,6 @@ class WriteDiaryPage extends StatefulWidget {
 
 class _WriteDiaryPageState extends State<WriteDiaryPage> {
   DateTime selectedDate = DateTime.now();
-
   bool changeDate = false;
   String moodSelected = "", moodImagePath = "";
   int score = 0;
@@ -249,8 +250,8 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
                                 moodImagePath = 'assets/faces/llorando.png';
                                 moodSelected = 'Horrible';
                               });
+
                               print('llorando');
-                              print('FECHA WIDGET: ${widget.date} //// FECHA AHORA: ${date}');
                             },
                           ),
                         )
@@ -325,12 +326,13 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
                       padding: const EdgeInsets.only(right: 10, bottom: 10),
                       child: Column(children: [
                         SizedBox(
-                          height: 30,
-                          width: 30,
+                          height: 40,
+                          width: 40,
                           child: TextButton(
                             child: Icon(
                               Icons.arrow_drop_up,
                               color: Colors.white,
+                              size: 40,
                             ),
                             onPressed: () {
                               _incrementScore();
@@ -338,12 +340,13 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 30,
-                          width: 30,
+                          height: 40,
+                          width: 40,
                           child: TextButton(
                             child: Icon(
                               Icons.arrow_drop_down,
                               color: Colors.white,
+                              size: 40,
                             ),
                             onPressed: () {
                               _decrementScore();
@@ -409,6 +412,7 @@ class _WriteDiaryPageState extends State<WriteDiaryPage> {
   }
 }
 
+//Crea la página en la base de datos
 Future<void> createDiaryPageCollection(
     String uid,
     String email,

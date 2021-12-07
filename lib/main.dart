@@ -12,7 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationApi.init(initScheduled: true);
   await Firebase.initializeApp();
-  initializeDateFormatting('es_ES').then((_) =>runApp(ChangeNotifierProvider(
+  initializeDateFormatting('es_ES').then((_) => runApp(ChangeNotifierProvider(
     create: (context) => MyProvider(),
     child: MaterialApp(
       debugShowCheckedModeBanner: false,

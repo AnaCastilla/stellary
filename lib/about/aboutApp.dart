@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+//PANTALLA EN SETTINGS DE SOBRE LA APLICACIÓN
 class AboutApp extends StatelessWidget {
   const AboutApp({Key? key}) : super(key: key);
 

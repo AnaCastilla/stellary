@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+//PANTALLA DE REGISTRO
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
 

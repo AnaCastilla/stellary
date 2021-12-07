@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:intl/intl.dart';
 
+//PANTALLA DE LA SALA DE CHAT DE LA CATEGORÍA SELECCIONADA EN LA PANTALLA DE SELECCIÓN DE CHAT
 class ChatScreen extends StatefulWidget {
   final User user;
   final String categoryName;

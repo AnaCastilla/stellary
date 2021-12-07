@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 
+//PANTALLA DE PERFIL
 class Profile extends StatefulWidget {
   final User user;
 
@@ -43,10 +44,10 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  //Obtiene la imagen de la galería
   getImage() async {
     try {
-      final image =
-          await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
 
       this.setState(() {
         print(image!.path);
@@ -57,6 +58,7 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  //Sube la imagen a la base de datos
   Future<String> uploadFile() async {
     TaskSnapshot taskSnapshot = await FirebaseStorage.instance
         .ref()
@@ -67,6 +69,7 @@ class _ProfileState extends State<Profile> {
     return taskSnapshot.ref.getDownloadURL();
   }
 
+  //Actualiza el perfil
   updateProfile(BuildContext context) async {
     if (file != null) {
       String url = await uploadFile();
@@ -83,6 +86,7 @@ class _ProfileState extends State<Profile> {
     ).then((value) => setState(() {}));
   }
 
+  //Obtiene la foto de perfil de la base de datos
   Future getProfilePic(String email) async {
     var pic;
     await FirebaseFirestore.instance
@@ -94,6 +98,7 @@ class _ProfileState extends State<Profile> {
     return pic;
   }
 
+  //Obtiene el nickname del usuario
   Future getNickname(String email) async {
     var nickname;
     await FirebaseFirestore.instance
@@ -105,7 +110,7 @@ class _ProfileState extends State<Profile> {
     return nickname;
   }
 
-  //Obtener la fecha en la que se ha registrado el usuario
+  //Obtiene la fecha en la que se ha registrado el usuario
   Future getRegisterDate(String email) async {
     var day, month, year, date;
     await FirebaseFirestore.instance
@@ -174,8 +179,8 @@ class _ProfileState extends State<Profile> {
                                             backgroundColor: Colors.transparent,
                                             child: ClipOval(
                                               child: SizedBox(
-                                                width: 160,
-                                                height: 160,
+                                                width: 150,
+                                                height: 150,
                                                 child: (snapshots.data
                                                             .toString() != "")
                                                     ? (file != null)
@@ -188,7 +193,6 @@ class _ProfileState extends State<Profile> {
                                                     : Image.asset(
                                                         "assets/avatar.png",
                                                         fit: BoxFit.cover,
-                                                        color: Colors.white,
                                                       ),
                                               ),
                                             )),
@@ -201,7 +205,8 @@ class _ProfileState extends State<Profile> {
                                       height: 45,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: Colors.purple.shade900.withOpacity(0.97)
+                                        color: HexColor('#37175A').withOpacity(0.97),
+                                          border: Border.all(color: Colors.white, width: 0.5)
 
                                         ),
                                         child: Padding(
@@ -376,6 +381,7 @@ class _ProfileState extends State<Profile> {
   }
 }
 
+//Obtiene las categorías de interés del usuario
 Future<void> getCategories(String email) async {
   var list;
   await FirebaseFirestore.instance

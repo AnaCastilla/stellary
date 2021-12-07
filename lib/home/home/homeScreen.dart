@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryly/home/diary/page/PageDiaryDetail.dart';
 import 'package:diaryly/home/diary/page/WritePageDiary.dart';
@@ -7,6 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+//PANTALLA DE HOME, LA QUE SE VE NADA MÁS INICIAR SESIÓN EN LA APP
+//MUESTRA LA FOTO DE PERFIL, EL NOMBRE DE USUARIO, LA PUNTUACIÓN MEDIA QUE SE HAYA REGISTRADO
+//DE TODAS LAS PÁGINAS DE DIARIO (si aún no ha escrito ninguna no aparece) Y LOS REGISTROS
+//QUE SE HAYAN CREADO EL DÍA DE HOY
 class HomeScreen extends StatefulWidget {
   final User user;
 
@@ -17,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List todayRegisters = [];
 
   @override
   void initState() {
@@ -54,23 +57,36 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             );
                           } else {
-                            return CircleAvatar(
-                                radius: 90,
-                                backgroundColor: Colors.transparent,
-                                child: ClipOval(
-                                  child: SizedBox(
-                                    height: 200,
-                                    width: 200,
-                                    child: (pic.data.toString() != "")
-                                        ? Image.network(pic.data.toString(),
-                                            fit: BoxFit.cover)
-                                        : Image.asset(
-                                            "assets/avatar.png",
-                                            fit: BoxFit.cover,
-                                            color: Colors.white,
-                                          ),
-                                  ),
-                                ));
+                            return Stack(
+                              children: [
+                                Padding(
+                                  padding: pic.data.toString() != ""? EdgeInsets.only(left: 9, top: 20) : EdgeInsets.only(left: 25, top: 55),
+                                  child: CircleAvatar(
+                                      radius: pic.data.toString() != ""? 90 : 72,
+                                      backgroundColor: Colors.transparent,
+                                      child: ClipOval(
+                                        child: SizedBox(
+                                          height: 200,
+                                          width: 200,
+                                          child: (pic.data.toString() != "")
+                                              ? Image.network(pic.data.toString(),
+                                                  fit: BoxFit.cover)
+                                              : Image.asset(
+                                                  "assets/avatar.png",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                        ),
+                                      )),
+                                ),
+                                Container(
+                                  width: 200,
+                                  height:200,
+                                  child: Image.asset(
+                                    "assets/400.png",
+                                    fit: BoxFit.cover,),
+                                ),
+                              ],
+                            );
                           }
                         }),
                     Padding(
@@ -91,9 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               .doc(widget.user.email)
                               .collection(widget.user.uid)
                               .snapshots(),
-                          builder: (context,
-                              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                                  avg) {
+                          builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> avg) {
                             List<int> avgSum = [];
 
                             if (avg.data == null || !avg.hasData) {
@@ -136,37 +150,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                               child: Padding(
                                                 padding: const EdgeInsets.only(top: 47),
                                                 child: SizedBox(
-                                                  width: 100,
-                                                    height: 65,
+                                                  width: 200,
+                                                    height: 63,
                                                     child: ListView.builder(
                                                         physics: NeverScrollableScrollPhysics(),
                                                         reverse: true,
-                                                        itemCount:
-                                                            avg.data!.docs.length,
-                                                        itemBuilder:
-                                                            (context, index) {
+                                                        itemCount: avg.data!.docs.length,
+                                                        itemBuilder: (context, index) {
                                                           int sum = 0;
 
-                                                          DocumentSnapshot avgData =
-                                                              avg.data!.docs[index];
-                                                          avgSum.add(
-                                                              avgData.get('score'));
+                                                          DocumentSnapshot avgData = avg.data!.docs[index];
+                                                          avgSum.add(avgData.get('score'));
 
                                                           for (int i = 0; i < avgSum.length; i++) {
                                                             sum += avgSum[i];
                                                           }
 
-                                                          return Center(
-                                                              child: Text(
-                                                            avg.data!.docs.length != avgSum.length ? ''
-                                                                : (sum / avgSum.length).toString().contains('.0')
-                                                                    ? (sum / avgSum.length).toString().replaceAll('.0', '')
-                                                                    : ((sum / avgSum.length).toString().length > 4
-                                                                        ? (sum / avgSum.length).toString().substring(0, 3)
-                                                                        : (sum / avgSum.length).toString()),
-                                                            style: TextStyle(
-                                                                fontSize: avg.data!.docs.length != avgSum.length ? 0 : 60),
-                                                          ));
+                                                          return avg.data!.docs.length != avgSum.length ? Container() :
+                                                           Padding(
+                                                            padding: sum / avgSum.length == 10? EdgeInsets.only(left:65) :
+                                                            !(sum / avgSum.length).toString().contains('.0')? EdgeInsets.only(left:58): EdgeInsets.only(left:83.5),
+                                                            child: Text(
+                                                              (sum / avgSum.length).toString().contains('.0') ?
+                                                              (sum / avgSum.length).toString().replaceAll('.0', '') :
+                                                              (sum / avgSum.length).toString().length > 3?
+                                                              (sum / avgSum.length).toStringAsFixed(1) :
+                                                              (sum / avgSum.length).toString(),
+                                                              style: TextStyle(
+                                                              fontSize: avg.data!.docs.length != avgSum.length ? 0 : 60),
+                                                            ),
+                                                          );
                                                         })),
                                               ),
                                             ),
@@ -198,9 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .collection(widget.user.uid)
                             .orderBy('hour', descending: true)
                             .snapshots(),
-                        builder: (context,
-                            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                                snapshot) {
+                        builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                           return !snapshot.hasData
                               ? CircularProgressIndicator()
                               : Padding(
@@ -250,11 +261,50 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ])
                                         : ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount: snapshot.data!.docs.length,
+                                            itemCount: todayRegisters.length == 0? 1 : snapshot.data!.docs.length,
                                             itemBuilder: (context, index) {
-                                              DocumentSnapshot diaryData = snapshot.data!.docs[index];
 
-                                              return GestureDetector(
+                                              DocumentSnapshot diaryData = snapshot.data!.docs[index];
+                                              if(diaryData.get('date') == date) {
+                                                todayRegisters.add(1);
+                                              }
+
+                                              return todayRegisters.length == 0?
+                                              Column(children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      top: 40.0),
+                                                  child: Container(
+                                                      alignment: Alignment.center,
+                                                      child: Text(
+                                                        ':(\n\nHoy no has escrito nada',
+                                                        textAlign: TextAlign.center,
+                                                        style:
+                                                        GoogleFonts.varelaRound(
+                                                            fontSize: 20,
+                                                            color: Colors
+                                                                .white
+                                                                .withOpacity(
+                                                                0.2)),
+                                                      )),
+                                                ),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  WriteDiaryPage(
+                                                                      date: date,
+                                                                      day: DateTime.now().day,
+                                                                      weekDay: DateTime.now().weekday,
+                                                                      month: DateTime.now().month,
+                                                                      year: DateTime.now().year,
+                                                                      user: widget.user)));
+                                                    },
+                                                    child: Text(
+                                                        'Pulsa aquí para crear una página'))
+                                              ]) :
+                                                GestureDetector(
                                                   onTap: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
@@ -352,6 +402,7 @@ Future<String> getProfilePic(String email) async {
   return pic;
 }
 
+//Retorna el String del mes del número introducido por parámetro
 String? getMonth(int numMonth) {
   switch (numMonth) {
     case 1:

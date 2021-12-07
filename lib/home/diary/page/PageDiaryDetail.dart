@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+//EN LA PANTALLA HOME, AL HACER CLICK SOBRE UN REGISTRO DE HOY, MUESTRA EL DETALLE DE DICHO REGISTRO
+//Esta es la clase que muestra dicho detalle
 class PageDiaryDetail extends StatefulWidget {
   final String date;
   final int day, weekDay, month, year;
@@ -30,8 +30,6 @@ class PageDiaryDetail extends StatefulWidget {
 }
 
 class _PageDiaryDetail extends State<PageDiaryDetail> {
-  DateTime selectedDate = DateTime.now();
-  String moodSelected = "", moodImagePath = "";
 
   @override
   void initState() {

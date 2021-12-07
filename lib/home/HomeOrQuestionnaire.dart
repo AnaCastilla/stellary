@@ -30,6 +30,8 @@ class _HomeOrQuestionnaireState extends State<HomeOrQuestionnaire> {
   }
 }
 
+//Función que obtiene de la base de datos el número de logeos que ha hecho el usuario en la app
+//Si dicho número es 1, devuelve true, por lo que la app mostrará la pantalla del cuestionario, si no, la de home
 Future<bool> getNumberOfLogs(String email) async {
   var numLogs;
   await FirebaseFirestore.instance

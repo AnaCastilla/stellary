@@ -1,8 +1,8 @@
-import 'package:diaryly/home/HomeOrQuestionnaire.dart';
 import 'package:diaryly/login/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+//SPLASH SCREEN, LA PRIMERA PANTALLA QUE SALE AL ABRIR LA APP CON EL LOGO, DURA 2.5S
 class SplashToLogin extends StatefulWidget {
   const SplashToLogin({Key? key}) : super(key: key);
 
@@ -18,7 +18,7 @@ class _SplashState extends State<SplashToLogin> {
   }
 
   _navigateToLogin() async {
-    await Future.delayed(Duration(milliseconds: 3000), () {});
+    await Future.delayed(Duration(milliseconds: 2500), () {});
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Login()));
   }

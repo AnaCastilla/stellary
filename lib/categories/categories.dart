@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+//Clase que crea la categoría con el checkbox y su respectivo nombre
 class Category {
   String name;
   bool selected;

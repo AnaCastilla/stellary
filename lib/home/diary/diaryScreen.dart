@@ -9,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+//PANTALLA DE DIARIO, SE MUESTRA TODAS LAS PÁGINAS QUE EL USUARIO HA CREADO
+//Y UN CALENDARIO CON LOS REGISTROS DE LAS PÁGINAS SI EL USUARIO REGISTRÓ CÓMO SE SENTÍA (LAS CARITAS)
 class DiaryScreen extends StatefulWidget {
   final User user;
 
@@ -89,8 +91,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.varelaRound(
                                           fontSize: 27,
-                                          color:
-                                              Colors.white.withOpacity(0.3))))
+                                          color: Colors.white.withOpacity(0.5))))
                               : Column(children: [
                                   ListView.builder(
                                     physics: NeverScrollableScrollPhysics(),
@@ -101,36 +102,26 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                           snapshot.data!.docs[index];
                                       print(snapshot.data!.docs.length);
                                       return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      20, 10, 20, 5),
+                                              padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
                                               child: Dismissible(
                                                 key: UniqueKey(),
-                                                direction:
-                                                    DismissDirection.startToEnd,
+                                                direction: DismissDirection.startToEnd,
                                                 background: Container(
-                                                    alignment:
-                                                        Alignment.centerLeft,
+                                                    alignment: Alignment.centerLeft,
                                                     decoration: BoxDecoration(
-                                                      color: Colors.red
-                                                          .withOpacity(0.6),
+                                                      color: Colors.red.withOpacity(0.6),
                                                     ),
                                                     child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 15.0),
+                                                      padding: const EdgeInsets.only(left: 15.0),
                                                       child: Icon(
                                                           Icons.delete_forever),
                                                     )),
                                                 onDismissed: (DismissDirection
                                                     direction) {
-                                                  if (direction ==
-                                                      DismissDirection
-                                                          .startToEnd) {
+                                                  if (direction == DismissDirection.startToEnd) {
                                                     Fluttertoast.showToast(
                                                         msg:
                                                             'Página eliminada');
@@ -194,18 +185,11 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                   },
                                                   child: Container(
                                                     height: 100,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
+                                                    width: MediaQuery.of(context).size.width,
                                                     decoration: BoxDecoration(
-                                                        color: Colors
-                                                            .purple[50]!
-                                                            .withOpacity(0.4)),
+                                                        color: Colors.purple[50]!.withOpacity(0.4)),
                                                     child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
+                                                      mainAxisAlignment: MainAxisAlignment.start,
                                                       children: [
                                                         Column(
                                                           children: [
@@ -215,8 +199,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                               ),
                                                             ),
                                                             Padding(
-                                                              padding:
-                                                                  const EdgeInsets.only( left: 17.0,top: 5),
+                                                              padding: const EdgeInsets.only( left: 17.0,top: 5),
                                                               child: Text(
                                                                 getDayOfWeek(
                                                                     diaryData.get(
@@ -236,100 +219,52 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                           ],
                                                         ),
                                                         Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 22.0),
+                                                          padding: const EdgeInsets.only(top: 22.0),
                                                           child: Align(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .topLeft,
+                                                              alignment: Alignment.topLeft,
                                                               child: diaryData.get('month').toString().length < 2?
                                                               Text(
                                                                 '/0${diaryData.get('month')}',
-                                                                style: GoogleFonts
-                                                                    .varelaRound(
-                                                                    fontSize:
-                                                                    8),
+                                                                style: GoogleFonts.varelaRound(fontSize: 8),
                                                               ) :
                                                               Text(
                                                                 '/${diaryData.get('month')}',
-                                                                style: GoogleFonts
-                                                                    .varelaRound(
-                                                                        fontSize:
-                                                                            8),
+                                                                style: GoogleFonts.varelaRound(fontSize: 8),
                                                               )),
                                                         ),
                                                         Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .fromLTRB(
-                                                                  0, 8, 0, 8),
+                                                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                                                           child:
                                                               VerticalDivider(),
                                                         ),
                                                         Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 15.0,
-                                                                  left: 8),
+                                                          padding: const EdgeInsets.only(top: 15.0, left: 8),
                                                           child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
                                                               diaryData.get('title').toString().length > 24 ?
                                                               Text(
-                                                                  diaryData.get('title').toString().substring(0, 24) +
-                                                                          "...",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style: GoogleFonts.quicksand(
-                                                                          fontSize:
-                                                                              19,
-                                                                          fontWeight: FontWeight
-                                                                              .bold))
+                                                                  diaryData.get('title').toString().substring(0, 24) + "...",
+                                                                      textAlign: TextAlign.left,
+                                                                      style: GoogleFonts.quicksand(fontSize: 19, fontWeight: FontWeight.bold))
                                                                   : Text(
-                                                                      diaryData.get(
-                                                                          'title'),
-                                                                      style: GoogleFonts.quicksand(
-                                                                          fontSize:
-                                                                              19,
-                                                                          fontWeight:
-                                                                              FontWeight.bold)),
-                                                                       diaryData
-                                                                          .get(
-                                                                              'content')
-                                                                          .toString()
-                                                                          .length >
-                                                                      63
+                                                                      diaryData.get('title'), style: GoogleFonts.quicksand(fontSize: 19, fontWeight: FontWeight.bold)),
+
+                                                              diaryData.get('content').toString().length > 63
                                                                   ? Padding(
-                                                                      padding: const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              8.0),
+                                                                      padding: const EdgeInsets.only(top: 6.0),
                                                                       child: SizedBox(
-                                                                          width: 220,
-                                                                          height: 50,
-                                                                          child: Text(
-                                                                            diaryData.get('content').substring(0, 63) +
-                                                                                "...",
-                                                                          )),
+                                                                          width: 230,
+                                                                          height: 34,
+                                                                          child: Text(diaryData.get('content').substring(0, 63) + "...",)
+                                                                      ),
                                                                     )
                                                                   : Padding(
-                                                                      padding: const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              8.0),
+                                                                      padding: const EdgeInsets.only(top: 6.0),
                                                                       child: SizedBox(
-                                                                          width:
-                                                                              220,
-                                                                          height:
-                                                                              50,
-                                                                          child:
-                                                                              Text(diaryData.get('content'))),
+                                                                          width: 230,
+                                                                          height: 34,
+                                                                          child: Text(diaryData.get('content'))),
                                                                     ),
                                                             ],
                                                           ),
@@ -395,8 +330,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.varelaRound(
                                           fontSize: 27,
-                                          color:
-                                              Colors.white.withOpacity(0.3))))
+                                          color: Colors.white.withOpacity(0.5))))
                               : Container(
                                   width: MediaQuery.of(context).size.width,
                                   height: 260,
@@ -412,18 +346,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                         return (diaryData.get('mood') == "")
                                             ? Container()
                                             : Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                                padding: const EdgeInsets.all(8.0),
                                                 child: Container(
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
+                                                  width: MediaQuery.of(context).size.width,
                                                   decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    color: Colors.white
-                                                        .withOpacity(0.2),
+                                                    borderRadius: BorderRadius.circular(10.0),
+                                                    color: Colors.white.withOpacity(0.2),
                                                   ),
                                                   child: Row(children: [
                                                     Padding(
@@ -431,74 +359,43 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                           const EdgeInsets.all(
                                                               10.0),
                                                       child: Container(
-                                                        alignment: Alignment
-                                                            .centerLeft,
+                                                        alignment: Alignment.centerLeft,
                                                         child: SizedBox(
                                                           width: 30,
                                                           height: 30,
-                                                          child: (diaryData.get(
-                                                                      'mood') ==
-                                                                  "")
+                                                          child: (diaryData.get('mood') == "")
                                                               ? Container()
                                                               : Image.asset(
-                                                                  diaryData.get(
-                                                                      'mood'),
-                                                                  color: Colors
-                                                                      .white,
+                                                                  diaryData.get('mood'), color: Colors.white,
                                                                 ),
                                                         ),
                                                       ),
                                                     ),
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 15.0),
+                                                      padding: const EdgeInsets.only(left: 15.0),
                                                       child: Container(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: Text(
-                                                              diaryData
-                                                                  .get('date'),
-                                                              style: GoogleFonts
-                                                                  .varelaRound(
-                                                                      fontSize:
-                                                                          15))),
+                                                          alignment: Alignment.center,
+                                                          child: Text(diaryData.get('date'),
+                                                              style: GoogleFonts.varelaRound(fontSize: 15))),
                                                     ),
                                                     //la fecha, al no tener ceros si el día o el mes es menor de 10,
                                                     // le añado más padding para que quede alineado con los que sí son >10
                                                     diaryData.get('date').toString().length < 9?
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 125.0),
+                                                      padding: const EdgeInsets.only(left: 125.0),
                                                       child: Container(
-                                                          child: Text(
-                                                              'Puntuación: ',
-                                                              style: GoogleFonts
-                                                                  .varelaRound(
-                                                                      fontSize:
-                                                                          15))),
+                                                          child: Text('Puntuación: ', style: GoogleFonts.varelaRound(fontSize: 15))),
                                                     ) : Padding(
-                                                      padding:
-                                                      const EdgeInsets.only(
-                                                          left: 105.0),
+                                                      padding: const EdgeInsets.only(left: 105.0),
                                                       child: Container(
                                                           child: Text(
                                                               'Puntuación: ',
-                                                              style: GoogleFonts
-                                                                  .varelaRound(
-                                                                  fontSize:
-                                                                  15))),
+                                                              style: GoogleFonts.varelaRound(fontSize: 15))),
                                                     ),
                                                     Container(
                                                         child: Text(
-                                                            diaryData
-                                                                .get('score')
-                                                                .toString(),
-                                                            style: GoogleFonts
-                                                                .varelaRound(
-                                                                    fontSize:
-                                                                        15)))
+                                                            diaryData.get('score').toString(),
+                                                            style: GoogleFonts.varelaRound(fontSize: 15)))
                                                   ]),
                                                 ),
                                               );
@@ -516,6 +413,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   }
 }
 
+//Retorna el String del día de la semana que se introduzca por parámetro
 getDayOfWeek(int day) {
   switch (day) {
     case 1:

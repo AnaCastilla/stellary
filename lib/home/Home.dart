@@ -2,7 +2,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:diaryly/dialog/createDialog.dart';
 import 'package:diaryly/home/diary/diaryScreen.dart';
 import 'package:diaryly/home/news/newsScreen.dart';
-import 'package:diaryly/login/loginScreen.dart';
 import 'package:diaryly/profile/profile.dart';
 import 'package:diaryly/settings/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,10 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 import 'chats/chatSelectScreen.dart';
 import 'home/homeScreen.dart';
 
+//Clase/Pantalla de home, es la que muestra el menú lateral deslizante (Drawer) y
+//gestiona las pantallas y lo que se muestra en ellas con la barra de navegación
 class Home extends StatefulWidget {
   final User user;
 
@@ -106,9 +106,10 @@ class _HomeState extends State<Home> {
                   ListTile(
                     title: Text("Cerrar sesión"),
                     leading: Icon(Icons.logout, color: Colors.white),
-                    onTap: ()  {
+                    onTap: () {
                       signOut();
-                      Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, 'login', (route) => false);
                       Fluttertoast.showToast(msg: 'Sesión cerrada');
                     },
                   ),

@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 
+//PANTALLA AL HACER CLICK SOBRE UNA PÁGINA DE DIARIO EN LA PANTALLA DE DIARIO. Edita dicha página y
+//la actualiza en la base de datos
 class EditDiaryPage extends StatefulWidget {
   final String date;
   final User user;
@@ -351,12 +353,13 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
                   padding: const EdgeInsets.only(right: 10, bottom: 10),
                   child: Column(children: [
                     SizedBox(
-                      height: 30,
-                      width: 30,
+                      height: 40,
+                      width: 40,
                       child: TextButton(
                         child: Icon(
                           Icons.arrow_drop_up,
                           color: Colors.white,
+                          size: 40,
                         ),
                         onPressed: () {
                           _incrementScore();
@@ -364,12 +367,13 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 30,
-                      width: 30,
+                      height: 40,
+                      width: 40,
                       child: TextButton(
                         child: Icon(
                           Icons.arrow_drop_down,
                           color: Colors.white,
+                          size: 40,
                         ),
                         onPressed: () {
                           _decrementScore();
@@ -392,31 +396,7 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
                       onPrimary: Colors.white,
                     ),
                     onPressed: () async {
-                      DateFormat formatter = new DateFormat("yyyy-MM-dd HH:mm:ss");
-                      CollectionReference collection = FirebaseFirestore
-                          .instance
-                          .collection('diary')
-                          .doc(widget.user.email!)
-                          .collection(widget.user.uid);
-                      var updatePage = await collection
-                          .where('hour', isEqualTo: widget.hour)
-                          .where('date', isEqualTo: widget.date)
-                          .get();
-
-                      for (var doc in updatePage.docs) {
-                        doc.reference.update({'moodString': moodSelected},);
-                        doc.reference.update({'mood': moodImagePath},);
-                        doc.reference.update({'date': changeDate == false? widget.date : date},);
-                        doc.reference.update({'hour': changeDate == false? widget.hour : formatter.format(selectedDate)});
-                        doc.reference.update({'day': changeDate == false? widget.day : selectedDate.day},);
-                        doc.reference.update({'weekday': changeDate == false? widget.weekDay : selectedDate.weekday},);
-                        doc.reference.update({'month': changeDate == false? widget.month : selectedDate.month},);
-                        doc.reference.update({'year': changeDate == false? widget.year : selectedDate.year},);
-                        doc.reference.update({'title': titleController.text});
-                        doc.reference.update({'content': contentController.text});
-                        doc.reference.update({'score': score});
-                      }
-
+                      updateDiaryPage(date);
                       Navigator.of(context).pop();
                     },
                     child: Text('Guardar', style: GoogleFonts.varelaRound()),
@@ -426,5 +406,33 @@ class _EditDiaryPageState extends State<EditDiaryPage> {
         ),
       ),
     );
+  }
+
+  //Actualiza en la base de datos
+  updateDiaryPage(String date) async {
+    DateFormat formatter = new DateFormat("yyyy-MM-dd HH:mm:ss");
+    CollectionReference collection = FirebaseFirestore
+        .instance
+        .collection('diary')
+        .doc(widget.user.email!)
+        .collection(widget.user.uid);
+    var updatePage = await collection
+        .where('hour', isEqualTo: widget.hour)
+        .where('date', isEqualTo: widget.date)
+        .get();
+
+    for (var doc in updatePage.docs) {
+      doc.reference.update({'moodString': moodSelected},);
+      doc.reference.update({'mood': moodImagePath},);
+      doc.reference.update({'date': changeDate == false? widget.date : date},);
+      doc.reference.update({'hour': changeDate == false? widget.hour : formatter.format(selectedDate)});
+      doc.reference.update({'day': changeDate == false? widget.day : selectedDate.day},);
+      doc.reference.update({'weekday': changeDate == false? widget.weekDay : selectedDate.weekday},);
+      doc.reference.update({'month': changeDate == false? widget.month : selectedDate.month},);
+      doc.reference.update({'year': changeDate == false? widget.year : selectedDate.year},);
+      doc.reference.update({'title': titleController.text});
+      doc.reference.update({'content': contentController.text});
+      doc.reference.update({'score': score});
+    }
   }
 }

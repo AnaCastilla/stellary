@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//PANTALLA DE INICIO DE SESIÓN
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
 
@@ -319,6 +320,7 @@ class _LoginState extends State<Login> {
     return dialog.createDialogCloseApp("¿Quieres salir de Stellary?", context);
   }
 
+  //Si se hace click en recordar datos, esta función es la que se encarga de guardarlos
   void _handleRememberMe(bool? value) {
     rememberMe = value!;
     SharedPreferences.getInstance().then(
@@ -333,6 +335,7 @@ class _LoginState extends State<Login> {
     });
   }
 
+  //Al abrir la app, esta función se encarga de mostrar los datos guardados (e-mail y contraseña)
   void _loadUserEmailPassword() async {
     try {
       SharedPreferences _prefs = await SharedPreferences.getInstance();
@@ -353,9 +356,11 @@ class _LoginState extends State<Login> {
       print(e);
     }
   }
-
 }
 
+//Esta función se encarga de incrementar por 1 una variable en la base de datos de cada usuario
+//al iniciar sesión, la misma variable que controla que si se inicia sesión por primera vez se
+//muestre el cuestionario de las categorías de interés o no
 incrementLogs(String email) async {
   await FirebaseFirestore.instance
       .collection('usuarios')

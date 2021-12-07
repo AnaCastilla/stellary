@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+//PANTALLA DE AJUSTES
 class Settings extends StatefulWidget {
   final User user;
 
@@ -38,6 +38,7 @@ class _SettingsState extends State<Settings> {
   void stopListenNotifications() => NotificationApi.onNotifications.stream.listen(onClickedNotification).cancel();
 
   //POR ALGUNA RAZÓN CUANDO SALE LA NOTIFICACIÓN Y LE DOY CLICK, ME LLEVA A HOME PERO NO PUEDO VOLVER A ENTRAR EN SETTINGS
+  //LAS NOTIFICACIONES ESTÁN PROGRAMADAS PARA LAS 21:30 DE CADA DÍA, VER MÁS EN notification_api.dart
   void onClickedNotification(String? payload) => Navigator.push(
       context,
       MaterialPageRoute(
@@ -71,24 +72,23 @@ class _SettingsState extends State<Settings> {
                           tiles: [
                             ExpansionTile(
                                 leading: Padding(
-                                  padding: const EdgeInsets.only(top: 3,
-                                      left: 1),
+                                  padding: const EdgeInsets.only(top: 3, left: 1),
                                   child: Image.asset('assets/notification.png',
                                     height: 26, color: Colors.white,),
                                 ),
-                                title: Text('Notificaciones', style: TextStyle(
-                                    fontFamily: 'SourceSansPro',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white)),
+                                title: Text('Notificaciones',
+                                    style: TextStyle(
+                                      fontFamily: 'SourceSansPro',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.white)
+                                ),
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 70),
+                                        padding: const EdgeInsets.only(left: 70),
                                         child: Text(prov.notifications
                                             ? "Activadas"
                                             : "Desactivadas", style: TextStyle(
@@ -98,8 +98,7 @@ class _SettingsState extends State<Settings> {
                                             color: Colors.white)),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 8.0),
+                                        padding: const EdgeInsets.only(right: 8.0),
                                         child: Switch(
                                             value: prov.notifications,
                                             onChanged: (bool onChanged) {
@@ -110,9 +109,7 @@ class _SettingsState extends State<Settings> {
                                                     .showScheduledNotification(
                                                     title: '¿Qué tal?',
                                                     body: 'Relájate un poco y escribe cómo te ha ido hoy',
-                                                    scheduledDate: DateTime
-                                                        .now().add(Duration(
-                                                        seconds: 3)));
+                                                    scheduledDate: DateTime.now().add(Duration(seconds: 3)));
                                               });
                                             }),
                                       )
@@ -184,11 +181,4 @@ class _SettingsState extends State<Settings> {
   }
 }
 
- launchURL(url) async {
-  print(url);
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
+

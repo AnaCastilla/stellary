@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'chatScreen.dart';
 
+//PANTALLA DONDE SELECCIONAS EL CHAT ENTRE TODAS LAS CATEGORÍAS DE INTERÉS DEL USUARIO
 class ChatSelect extends StatefulWidget {
   final User user;
   const ChatSelect({Key? key, required this.user}) : super(key: key);
@@ -30,16 +30,31 @@ class _ChatSelectState extends State<ChatSelect> {
             } else {
               values = snapshot.data!.get('categories');
               return values.length == 0
-                  ? Container(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 32.0),
-                    child: Text(':(\n\n No hay chats disponibles',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.varelaRound(
-                            fontSize: 27,
-                            color: Colors.white.withOpacity(0.3))),
-                  ))
+                  ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 32.0),
+                        child: Text(':(\n\n No hay chats disponibles',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.varelaRound(
+                                fontSize: 27,
+                                color: Colors.white.withOpacity(0.5))),
+                      )),
+                      Container(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 32.0),
+                            child: Text('Dirígete a tu perfil para cambiar tus intereses y habilitar esta sección',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.varelaRound(
+                                    fontSize: 15,
+                                    color: Colors.white.withOpacity(0.5))),
+                          )),
+                    ],
+                  )
                   : !snapshot.hasData
                   ? Center(child: CircularProgressIndicator())
                   : Column(

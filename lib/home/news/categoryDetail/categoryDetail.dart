@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+//PANTALLA que sale al hacer click sobre una categoría, muestra todas las páginas webs
+//a las que podemos acceder relacionadas con dicha categoría
 class CategoryDetail extends StatelessWidget {
   final String categoryName;
 
@@ -93,6 +95,7 @@ class CategoryDetail extends StatelessWidget {
   }
 }
 
+//Esta función hace que la app abra la página web de la url introducida
 launchURL(url) async {
   print(url);
   if (await canLaunch(url)) {
