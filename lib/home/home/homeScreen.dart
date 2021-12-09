@@ -72,8 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ? Image.network(pic.data.toString(),
                                                   fit: BoxFit.cover)
                                               : Image.asset(
-                                                  "assets/avatar.png",
-                                                  fit: BoxFit.cover,
+                                                  "assets/avatar2.png",
                                                 ),
                                         ),
                                       )),

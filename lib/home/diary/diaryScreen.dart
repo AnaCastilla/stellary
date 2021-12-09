@@ -375,18 +375,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                                       padding: const EdgeInsets.only(left: 15.0),
                                                       child: Container(
                                                           alignment: Alignment.center,
-                                                          child: Text(diaryData.get('date'),
-                                                              style: GoogleFonts.varelaRound(fontSize: 15))),
+                                                          child: diaryData.get('day').toString().length == 1?
+                                                            Text('0' + diaryData.get('date').toString(), style: GoogleFonts.varelaRound(fontSize: 15))
+                                                              : Text(diaryData.get('date'), style: GoogleFonts.varelaRound(fontSize: 15))),
                                                     ),
-                                                    //la fecha, al no tener ceros si el día o el mes es menor de 10,
-                                                    // le añado más padding para que quede alineado con los que sí son >10
-                                                    diaryData.get('date').toString().length < 9?
                                                     Padding(
-                                                      padding: const EdgeInsets.only(left: 125.0),
-                                                      child: Container(
-                                                          child: Text('Puntuación: ', style: GoogleFonts.varelaRound(fontSize: 15))),
-                                                    ) : Padding(
-                                                      padding: const EdgeInsets.only(left: 105.0),
+                                                      padding: const EdgeInsets.only(left: 95),
                                                       child: Container(
                                                           child: Text(
                                                               'Puntuación: ',
